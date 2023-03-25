@@ -1,0 +1,31 @@
+<!-- File: dashboard.html
+    Author: Austin Herkert
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Gamer Den</title>
+</head>
+<body>
+    <div class="titleDiv">
+        Welcome to the Gamer Den!
+    </div>
+    <canvas width="400" height="400" id="game" hidden></canvas>
+    <div class="threeGamesDiv" id="threeGamesDiv">
+        <div>
+            <button class="games" onclick="startGame1()" id="game1" type="button">Click Me! I am Game One</button>
+        </div>
+        <div>
+            <button class="games" id="game2" type="button">Click Me! I am Game Two</button>
+        </div>
+        <div>
+            <button class="games" id="game3" type="button">Click Me! I am Game Three</button>
+        </div>
+    </div>
+    <script src="script.js">
+    </script>
+</body>
+</html>
