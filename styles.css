@@ -1,17 +1,47 @@
-body {
-    background-image: url("cave_image.jpg");
-    background-size:  cover;                
-    background-repeat: no-repeat;
-    
-}
-
 .titleDiv{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 10vh;
-    color: white;
-    font-size: 30px;
+    color: rgb(162, 129, 19);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 50px;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    animation: neon 3s ease-in-out infinite;
+}
+
+@keyframes neon {
+    0% {
+        text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255), 0 0 40px rgb(255, 255, 255);
+    }
+    50% {
+        text-shadow: none;
+    }
+    100% {
+        text-shadow: 0 0 5px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255), 0 0 40px rgb(255, 255, 255);
+    }
+}
+
+body {
+    background-image: url("cave_image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  
+
+.game {
+    position: relative;
+    border-radius: 25px;
+    width: 250px;
+    height: 300px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0 30px;
+    opacity: 1;
+    font-size: 40px;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 .threeGamesDiv {
@@ -19,55 +49,146 @@ body {
     justify-content: center;
     align-items: center;
     height: 90vh;
+    margin: auto;
+    text-align: center;
 }
+
 .game1 {
     border-radius: 25px;
     width: 250px;
     height: 300px;
     background-image: url("Snake.jpg");
-    background-size:     cover;                
-    background-repeat:   no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
     margin: 0 30px;
     opacity: 1;
     font-size: 40px;
     font-family: "Lucida Console", "Courier New", monospace;
-}
-
-.game1:hover {opacity: 0.6}
-
-.game2 {
+    }
+    
+    .game1:hover {
+        animation: shake-rotate 0.5s;
+        animation-fill-mode: forwards;
+    }
+    
+    @keyframes shake-rotate {
+        0% {
+            transform: scale(1) rotate(0deg);
+        }
+        25% {
+            transform: scale(1.1) rotate(10deg);
+        }
+        50% {
+            transform: scale(1) rotate(0deg);
+        }
+        75% {
+            transform: scale(1.1) rotate(-10deg);
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+        }
+    }
+    
+    .game1:hover {
+        opacity: 0.80;
+        transform-origin: center center;
+        transition: all 0.5s ease-in-out;
+        box-shadow: 0 0 50px #FFFFFF;
+    }
+    
+    .game2 {
     border-radius: 25px;
     width: 250px;
     height: 300px;
     background-image: url("BubblePop.jpg");
-    background-size:     cover;                
-    background-repeat:   no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
     margin: 0 30px;
     opacity: 1;
     font-size: 40px;
     font-family: "Lucida Console", "Courier New", monospace;
-}
-
-.game2:hover {opacity: 0.6}
-
-.game3 {
+    transition: all 0.5s ease-in-out;
+    }
+    
+    .game2:hover {
+        animation: shake-rotate 0.5s;
+        animation-fill-mode: forwards;
+    }
+    
+    @keyframes shake-rotate {
+        0% {
+            transform: scale(1) rotate(0deg);
+        }
+        25% {
+            transform: scale(1.1) rotate(10deg);
+        }
+        50% {
+            transform: scale(1) rotate(0deg);
+        }
+        75% {
+            transform: scale(1.1) rotate(-10deg);
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+        }
+    }
+    
+    .game2:hover {
+        opacity: 0.80;
+        transform-origin: center center;
+        transition: all 0.5s ease-in-out;
+        box-shadow: 0 0 50px #FFFFFF;
+    }
+    
+    .game3 {
     border-radius: 25px;
     width: 250px;
     height: 300px;
     background-image: url("Breakout.jpg");
-    background-size:     cover;                
-    background-repeat:   no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
     margin: 0 30px;
     opacity: 1;
     font-size: 40px;
     font-family: "Lucida Console", "Courier New", monospace;
+    transition: all 0.5s ease-in-out;
+    }
+
+    .game3:hover {
+        animation: shake-rotate 0.5s;
+        animation-fill-mode: forwards;
+    }
+    
+    @keyframes shake-rotate {
+        0% {
+            transform: scale(1) rotate(0deg);
+        }
+        25% {
+            transform: scale(1.1) rotate(10deg);
+        }
+        50% {
+            transform: scale(1) rotate(0deg);
+        }
+        75% {
+            transform: scale(1.1) rotate(-10deg);
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+        }
+    }
+    
+    .game3:hover {
+        opacity: 0.80;
+        transform-origin: center center;
+        transition: all 0.5s ease-in-out;
+        box-shadow: 0 0 50px #FFFFFF;
+    }
+    #backButton {
+        border-radius: 10px;;
+  transition: transform 0.2s ease-in-out;
 }
 
-.game3:hover {opacity: 0.6}
+#backButton:hover {
+  transform: scale(1.2);
+}
 
-canvas {
-    border: 1px solid black;
-    background-color: white;
-    margin: 0 auto;
-    
-  }
