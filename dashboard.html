@@ -1,31 +1,33 @@
 <!-- File: dashboard.html
-    Author: Austin Herkert
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://GamerDen.github.io/styles.css">
+    <link rel="stylesheet"type="text/css" href="styles.css">
     <title>Gamer Den</title>
 </head>
 <body>
     <div class="titleDiv">
         Welcome to the Gamer Den!
     </div>
-    <canvas width="400" height="400" id="game" hidden></canvas>
+    <canvas width="400" height="400" id="Snake" hidden></canvas>
+    <canvas width="271" height="392" id="Bubble" hidden></canvas>
+    <canvas width="400" height="500" id="Breakout" hidden></canvas>
+    
     <div class="threeGamesDiv" id="threeGamesDiv">
         <div>
-            <button class="games" onclick="startGame1()" id="game1" type="button">Click Me! I am Game One</button>
+            <button class="game1" id="game1" type="button">Snake</button>
         </div>
         <div>
-            <button class="games" id="game2" type="button">Click Me! I am Game Two</button>
+            <button class="game2" id="game2" type="button">Bubble Pop</button>
         </div>
         <div>
-            <button class="games" id="game3" type="button">Click Me! I am Game Three</button>
+            <button class="game3" id="game3" type="button">Breakout</button>
         </div>
     </div>
-    <script src="https://GamerDen.github.io/script.js">
+    <script src="script.js">
     </script>
 </body>
 </html>
