@@ -3,23 +3,43 @@ const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
 
-
-
-
+backButton.onclick = function() {
+    window.location.href = "dashboard.html";
+  }
+  
+  // Add event listener for when the mouse enters the button
+  backButton.addEventListener("mouseenter", function() {
+    // Change the background color to a random color
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    backButton.style.backgroundColor = "#" + randomColor;
+  });
+  
+  // Add event listener for when the mouse leaves the button
+  backButton.addEventListener("mouseleave", function() {
+    // Change the background color back to its original color
+    backButton.style.backgroundColor = "";
+  });
+  
 class Game{
     
     constructor(){
 
     }
+    
 
     Snake(){
         var canvas = document.getElementById('Snake');
         var context = canvas.getContext('2d');
-        canvas.style.display = "block";
-        canvas.style.backgroundColor = "white";
-        canvas.display = "block";
-
-        gamesDiv.style.display = "none";
+        canvas.style.display = 'block';
+        canvas.style.backgroundColor = 'white';
+      
+        // Add these CSS properties to center the canvas
+        canvas.style.position = 'absolute';
+        canvas.style.top = '500%';
+        canvas.style.left = '50%';
+        canvas.style.transform = 'translate(-50%, -50%)';
+      
+        gamesDiv.style.display = 'none';
 
         // the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
         // (e.g. 16 * 25 = 400)
@@ -164,15 +184,19 @@ class Game{
     }
 
     BubblePop(){
-        const canvas = document.getElementById('Bubble');
-        const context = canvas.getContext('2d');
-
-        canvas.style.display = "block";
-        canvas.style.backgroundColor = "white";
-        canvas.display = "block";
-
-        gamesDiv.style.display = "none";
-
+    var canvas = document.getElementById('Bubble');
+    var context = canvas.getContext('2d');
+  
+    canvas.style.display = 'block';
+    canvas.style.backgroundColor = 'white';
+  
+    // Add these CSS properties to center the canvas
+    canvas.style.position = 'absolute';
+    canvas.style.top = '500%';
+    canvas.style.left = '50%';
+    canvas.style.transform = 'translate(-50%, -50%)';
+  
+    gamesDiv.style.display = 'none';
         // puzzle bubble is played on a hex grid. instead of doing complicated
         // math of working with a hex grid, we can just fill the screen with
         // bubbles in their correct positions. each bubble will start inactive,
@@ -604,15 +628,19 @@ class Game{
     }
 
     Breakout(){
-        const canvas = document.getElementById('Breakout');
-        const context = canvas.getContext('2d');
-
-        canvas.style.display = "block";
-        canvas.style.backgroundColor = "white";
-        canvas.display = "block";
-
-        gamesDiv.style.display = "none";
-
+        var canvas = document.getElementById('Breakout');
+        var context = canvas.getContext('2d');
+      
+        canvas.style.display = 'block';
+        canvas.style.backgroundColor = 'white';
+      
+        // Add these CSS properties to center the canvas
+        canvas.style.position = 'absolute';
+        canvas.style.top = '500%';
+        canvas.style.left = '50%';
+        canvas.style.transform = 'translate(-50%, -50%)';
+      
+        gamesDiv.style.display = 'none';
 
         // each row is 14 bricks long. the level consists of 6 blank rows then 8 rows
         // of 4 colors: red, orange, green, and yellow
@@ -840,7 +868,6 @@ const games = new Game();
 SnakeGame.onclick = function() {games.Snake()};
 BubbleGame.onclick = function() {games.BubblePop()};
 BreakoutGame.onclick = function() {games.Breakout()};
-
 
 
 
