@@ -3,9 +3,7 @@ const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
 
-SnakeGame.onclick = function() {Snake()};
-BubbleGame.onclick = function() {BubblePop()};
-BreakoutGame.onclick = function() {Breakout()};
+
 
 
 class Game{
