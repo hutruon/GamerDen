@@ -1,3 +1,6 @@
+const gamesDiv = document.getElementById('threeGamesDiv');
+const SnakeGame = document.getElementById('game1');
+const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
 const backButton = document.getElementById('backButton');
 const changeBackgroundButton = document.getElementById('changeBackgroundButton');
