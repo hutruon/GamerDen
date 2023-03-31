@@ -3,29 +3,51 @@ const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
 const backButton = document.getElementById('backButton');
+const gameSelectionButtons = document.querySelectorAll('.threeGamesDiv button');
 const changeBackgroundButton = document.getElementById('changeBackgroundButton');
 const revertBackgroundButton = document.getElementById('revertBackgroundButton');
 const body = document.getElementsByTagName('body')[0];
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
-
-backButton.onclick = function() {
-    console.log("HomePage");
-    window.location.href = "dashboard.html";
-};
+backButton.addEventListener('click', function() {
+    // Hide the selected game canvas and show the game selection buttons
+    document.getElementById('Snake').hidden = true;
+    document.getElementById('Bubble').hidden = true;
+    document.getElementById('Breakout').hidden = true;});
+    gameSelectionButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          // Show the selected game canvas and hide the game selection buttons
+          const selectedGame = this.id;
+          document.getElementById(selectedGame).hidden = false;
+          document.getElementById('threeGamesDiv').hidden = true;
+          // Show the back button
+          backButton.hidden = false;
+        });
+      });
 
 // Add event listener for when the mouse enters the button
-backButton.addEventListener("mouseenter", function() {
+changeBackgroundButton.addEventListener("mouseenter", function() {
     // Change the background color to a random color
     const randomColor = Math.floor(Math.random()*16777215).toString(16);
-    backButton.style.backgroundColor = "#" + randomColor;
+    changeBackgroundButton.style.backgroundColor = "#" + randomColor;
 });
 
 // Add event listener for when the mouse leaves the button
-backButton.addEventListener("mouseleave", function() {
+changeBackgroundButton.addEventListener("mouseleave", function() {
     // Change the background color back to its original color
-    backButton.style.backgroundColor = "";
+    changeBackgroundButton.style.backgroundColor = "";
+});
+revertBackgroundButton.addEventListener("mouseenter", function() {
+    // Change the background color to a random color
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    revertBackgroundButton.style.backgroundColor = "#" + randomColor;
+});
+
+// Add event listener for when the mouse leaves the button
+revertBackgroundButton.addEventListener("mouseleave", function() {
+    // Change the background color back to its original color
+    revertBackgroundButton.style.backgroundColor = "";
 });
 
 // Add event listener for when the change background button is clicked
@@ -54,7 +76,7 @@ class Game{
       
         // Add these CSS properties to center the canvas
         canvas.style.position = 'absolute';
-        canvas.style.top = '500%';
+        canvas.style.top = '300%';
         canvas.style.left = '50%';
         canvas.style.transform = 'translate(-50%, -50%)';
       
@@ -235,7 +257,7 @@ class Game{
   
     // Add these CSS properties to center the canvas
     canvas.style.position = 'absolute';
-    canvas.style.top = '500%';
+    canvas.style.top = '300%';
     canvas.style.left = '50%';
     canvas.style.transform = 'translate(-50%, -50%)';
   
@@ -708,7 +730,7 @@ class Game{
       
         // Add these CSS properties to center the canvas
         canvas.style.position = 'absolute';
-        canvas.style.top = '500%';
+        canvas.style.top = '300%';
         canvas.style.left = '50%';
         canvas.style.transform = 'translate(-50%, -50%)';
       
@@ -965,3 +987,22 @@ const games = new Game();
 SnakeGame.onclick = function() {games.Snake()};
 BubbleGame.onclick = function() {games.BubblePop()};
 BreakoutGame.onclick = function() {games.Breakout()};
+
+
+backButton.onclick = function() {
+    console.log("Button clicked");
+    window.location.href = "dashboard.html";
+
+};
+// Add event listener for when the mouse enters the button
+backButton.addEventListener("mouseenter", function() {
+    // Change the background color to a random color
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    backButton.style.backgroundColor = "#" + randomColor;
+});
+
+// Add event listener for when the mouse leaves the button
+backButton.addEventListener("mouseleave", function() {
+    // Change the background color back to its original color
+    backButton.style.backgroundColor = "";
+});
