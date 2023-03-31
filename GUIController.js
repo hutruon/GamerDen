@@ -1,24 +1,39 @@
-const gamesDiv = document.getElementById('threeGamesDiv');
-const SnakeGame = document.getElementById('game1');
-const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
+const backButton = document.getElementById('backButton');
+const changeBackgroundButton = document.getElementById('changeBackgroundButton');
+const revertBackgroundButton = document.getElementById('revertBackgroundButton');
+const body = document.getElementsByTagName('body')[0];
+
+// Store the original background image URL
+const originalBackgroundImage = body.style.backgroundImage;
 
 backButton.onclick = function() {
     window.location.href = "dashboard.html";
-  }
-  
-  // Add event listener for when the mouse enters the button
-  backButton.addEventListener("mouseenter", function() {
+}
+
+// Add event listener for when the mouse enters the button
+backButton.addEventListener("mouseenter", function() {
     // Change the background color to a random color
     const randomColor = Math.floor(Math.random()*16777215).toString(16);
     backButton.style.backgroundColor = "#" + randomColor;
-  });
-  
-  // Add event listener for when the mouse leaves the button
-  backButton.addEventListener("mouseleave", function() {
+});
+
+// Add event listener for when the mouse leaves the button
+backButton.addEventListener("mouseleave", function() {
     // Change the background color back to its original color
     backButton.style.backgroundColor = "";
-  });
+});
+
+// Add event listener for when the change background button is clicked
+changeBackgroundButton.addEventListener('click', function() {
+    const newBackgroundImage = prompt("Enter the URL of the new background image:");
+    body.style.backgroundImage = `url(${newBackgroundImage})`;
+});
+
+// Add event listener for when the revert background button is clicked
+revertBackgroundButton.addEventListener('click', function() {
+    body.style.backgroundImage = originalBackgroundImage;
+});
   
 class Game{
     
@@ -946,9 +961,3 @@ const games = new Game();
 SnakeGame.onclick = function() {games.Snake()};
 BubbleGame.onclick = function() {games.BubblePop()};
 BreakoutGame.onclick = function() {games.Breakout()};
-
-
-
-
-    
-
