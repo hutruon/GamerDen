@@ -12,7 +12,7 @@ const originalBackgroundImage = body.style.backgroundImage;
 
 backButton.onclick = function() {
     console.log("Button clicked");
-    window.location.href = "/dashboard.html";
+    window.location.href = "http://localhost/dashboard.html";
 };
 
 // Add event listener for when the mouse enters the button
