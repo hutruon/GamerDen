@@ -990,7 +990,7 @@ BreakoutGame.onclick = function() {games.Breakout()};
 
 
 backButton.addEventListener("click", function() {
-    window.location.href = "dashboard.html"; 
+    window.location.href = "https://htmlpreview.github.io/?https://github.com/hutruon/GamerDen.github.io/blob/main/dashboard.html"; 
   });
 
 // Add event listener for when the mouse enters the button
