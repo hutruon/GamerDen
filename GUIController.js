@@ -994,7 +994,6 @@ backButton.onclick = function() {
     window.history.back();
 };
 
-};
 // Add event listener for when the mouse enters the button
 backButton.addEventListener("mouseenter", function() {
     // Change the background color to a random color
