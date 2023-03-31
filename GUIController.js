@@ -1,24 +1,39 @@
-const gamesDiv = document.getElementById('threeGamesDiv');
-const SnakeGame = document.getElementById('game1');
-const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
+const backButton = document.getElementById('backButton');
+const changeBackgroundButton = document.getElementById('changeBackgroundButton');
+const revertBackgroundButton = document.getElementById('revertBackgroundButton');
+const body = document.getElementsByTagName('body')[0];
+
+// Store the original background image URL
+const originalBackgroundImage = body.style.backgroundImage;
 
 backButton.onclick = function() {
     window.location.href = "dashboard.html";
-  }
-  
-  // Add event listener for when the mouse enters the button
-  backButton.addEventListener("mouseenter", function() {
+}
+
+// Add event listener for when the mouse enters the button
+backButton.addEventListener("mouseenter", function() {
     // Change the background color to a random color
     const randomColor = Math.floor(Math.random()*16777215).toString(16);
     backButton.style.backgroundColor = "#" + randomColor;
-  });
-  
-  // Add event listener for when the mouse leaves the button
-  backButton.addEventListener("mouseleave", function() {
+});
+
+// Add event listener for when the mouse leaves the button
+backButton.addEventListener("mouseleave", function() {
     // Change the background color back to its original color
     backButton.style.backgroundColor = "";
-  });
+});
+
+// Add event listener for when the change background button is clicked
+changeBackgroundButton.addEventListener('click', function() {
+    const newBackgroundImage = prompt("Enter the URL of the new background image:");
+    body.style.backgroundImage = `url(${newBackgroundImage})`;
+});
+
+// Add event listener for when the revert background button is clicked
+revertBackgroundButton.addEventListener('click', function() {
+    body.style.backgroundImage = originalBackgroundImage;
+});
   
 class Game{
     
@@ -178,6 +193,30 @@ class Game{
             snake.dx = 0;
         }
         });
+           //make awsd key
+    document.addEventListener('keydown', function(e) {
+    // left arrow key or A key
+    if ((e.which === 37 || e.which === 65) && snake.dx === 0) {
+        snake.dx = -grid;
+        snake.dy = 0;
+    }
+    // up arrow key or W key
+    else if ((e.which === 38 || e.which === 87) && snake.dy === 0) {
+        snake.dy = -grid;
+        snake.dx = 0;
+    }
+    // right arrow key or D key
+    else if ((e.which === 39 || e.which === 68) && snake.dx === 0) {
+        snake.dx = grid;
+        snake.dy = 0;
+    }
+    // down arrow key or S key
+    else if ((e.which === 40 || e.which === 83) && snake.dy === 0) {
+        snake.dy = grid;
+        snake.dx = 0;
+    }
+});
+
 
         // start the game
         requestAnimationFrame(loop);
@@ -622,6 +661,35 @@ class Game{
             shootDir = 0;
         }
         });
+        document.addEventListener('keydown', (e) => {
+        if (e.code === 'KeyA') { // A key pressed
+          shootDir = -1;
+        } else if (e.code === 'KeyD') { // D key pressed
+          shootDir = 1;
+        }
+      
+        // if the current bubble is not moving we can launch it
+        if (e.code === 'Space' && curBubble.dx === 0 && curBubble.dy === 0) {
+          // convert an angle to x/y
+          curBubble.dx = Math.sin(shootDeg) * curBubble.speed;
+          curBubble.dy = -Math.cos(shootDeg) * curBubble.speed;
+        }
+      });
+      
+      // listen for keyboard events to stop moving the fire arrow if key is
+      // released
+      document.addEventListener('keyup', (e) => {
+        if (
+          // only reset shoot dir if the released key is also the current
+          // direction of movement. otherwise if you press down both arrow
+          // keys at the same time and then release one of them, the arrow
+          // stops moving even though you are still pressing a key
+          (e.code === 'KeyA' && shootDir === -1) ||
+          (e.code === 'KeyD' && shootDir === 1)
+        ) {
+          shootDir = 0;
+        }
+      });
 
         // start the game
         requestAnimationFrame(loop);
@@ -855,7 +923,32 @@ class Game{
         if (e.which === 37 || e.which === 39) {
             paddle.dx = 0;
         }
-        });
+        document.addEventListener('keydown', function(e) {
+        // A key
+        if (e.which === 65) {
+          paddle.dx = -3;
+        }
+        // D key
+        else if (e.which === 68) {
+          paddle.dx = 3;
+        }
+      
+        // W key
+        // if the ball is not moving, we can launch the ball using the W key. ball
+        // will move towards the bottom right to start
+        if (ball.dx === 0 && ball.dy === 0 && e.which === 87) {
+          ball.dx = ball.speed;
+          ball.dy = ball.speed;
+        }
+      });
+      
+      // listen to keyboard events to stop the paddle if key is released
+      document.addEventListener('keyup', function(e) {
+        if (e.which === 65 || e.which === 68) {
+          paddle.dx = 0;
+        }
+      });
+    });
 
         // start the game
         requestAnimationFrame(loop);
@@ -868,9 +961,3 @@ const games = new Game();
 SnakeGame.onclick = function() {games.Snake()};
 BubbleGame.onclick = function() {games.BubblePop()};
 BreakoutGame.onclick = function() {games.Breakout()};
-
-
-
-
-    
-
