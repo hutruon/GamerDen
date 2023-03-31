@@ -989,10 +989,9 @@ BubbleGame.onclick = function() {games.BubblePop()};
 BreakoutGame.onclick = function() {games.Breakout()};
 
 
-backButton.onclick = function() {
-    console.log("Button clicked");
-    window.history.back();
-};
+backButton.addEventListener("click", function() {
+    window.location.href = "dashboard.html"; 
+  });
 
 // Add event listener for when the mouse enters the button
 backButton.addEventListener("mouseenter", function() {
