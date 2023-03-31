@@ -991,7 +991,8 @@ BreakoutGame.onclick = function() {games.Breakout()};
 
 backButton.onclick = function() {
     console.log("Button clicked");
-    window.location.href = "dashboard.html";
+    window.history.back();
+};
 
 };
 // Add event listener for when the mouse enters the button
