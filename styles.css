@@ -191,4 +191,35 @@ body {
 #backButton:hover {
   transform: scale(1.2);
 }
-
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Styles for animated buttons */
+  .animated-button {
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    animation: pulse 2s infinite;
+  }
+  
+  /* Styles for revert button */
+  #revertBackgroundButton {
+    background-color: #f44336; 
+  }
