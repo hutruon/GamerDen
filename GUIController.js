@@ -11,8 +11,9 @@ const body = document.getElementsByTagName('body')[0];
 const originalBackgroundImage = body.style.backgroundImage;
 
 backButton.onclick = function() {
+    console.log("Button clicked");
     window.location.href = "dashboard.html";
-}
+};
 
 // Add event listener for when the mouse enters the button
 backButton.addEventListener("mouseenter", function() {
