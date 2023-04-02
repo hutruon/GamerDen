@@ -1114,11 +1114,37 @@ backButton.addEventListener("mouseleave", function () {
     backButton.style.backgroundColor = "";
 });
 
-//add event listener for when the user wants to play the sound
+// Event listener for the play button
 playMusicButton.addEventListener("click", playMusic);
 
-//add event listener for when the user wants to mute/unmute the sound
+// Event listener for the mute button
 muteButton.addEventListener("click", toggleMute);
+
+// Add event listener for when the mouse enters the button
+playMusicButton.addEventListener("mouseenter", function () {
+    // Change the background color to a random color
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    playMusicButton.style.backgroundColor = "#" + randomColor;
+  });
+  
+  // Add event listener for when the mouse leaves the button
+  playMusicButton.addEventListener("mouseleave", function () {
+    // Change the background color back to its original color
+    playMusicButton.style.backgroundColor = "";
+  });
+  
+  // Add event listener for when the mouse enters the button
+  muteButton.addEventListener("mouseenter", function () {
+    // Change the background color to a random color
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    muteButton.style.backgroundColor = "#" + randomColor;
+  });
+  
+  // Add event listener for when the mouse leaves the button
+  muteButton.addEventListener("mouseleave", function () {
+    // Change the background color back to its original color
+    muteButton.style.backgroundColor = "";
+  });
 
 pauseButton.addEventListener("mouseenter", function () {
     // Change the background color to a random color
