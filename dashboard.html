@@ -1,17 +1,38 @@
-<!-- File: dashboard.html
--->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Gamer Den</title>
 </head>
+
 <body>
     <div class="titleDiv">
-        Welcome to the Gamer Den! 
+        Welcome to the Gamer Den!
     </div>
+    <div>
+        <button id="playMusicButton" class="button-style play-music-button">Play Music</button>
+        <button id="muteButton" class="button-style mute-button">Mute</button>
+    </div>
+    <audio id="background-music">
+        <source src="cave_sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="snake-sound">
+        <source src="snake_music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="bubble-sound">
+        <source src="popcorn_cookie_theme.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="breakout-sound">
+        <source src="breakout.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
     <canvas width="400" height="400" id="Snake" hidden></canvas>
     <canvas width="271" height="392" id="Bubble" hidden></canvas>
     <canvas width="400" height="500" id="Breakout" hidden></canvas>
@@ -32,8 +53,10 @@
             <button id="changeBackgroundButton" class="unique-shape">Change Skin</button>
             <button id="revertBackgroundButton" class="unique-shape">Revert Original Skin</button>
         </div>
+
     </div>
     <button id="backButton" class="unique-shape" hidden>HomePage</button>
     <script src="GUIController.js"></script>
 </body>
+
 </html>

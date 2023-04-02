@@ -7,6 +7,67 @@ const gameSelectionButtons = document.querySelectorAll('.threeGamesDiv button');
 const changeBackgroundButton = document.getElementById('changeBackgroundButton');
 const revertBackgroundButton = document.getElementById('revertBackgroundButton');
 const body = document.getElementsByTagName('body')[0];
+const playMusicButton = document.getElementById("playMusicButton");
+const muteButton = document.getElementById("muteButton");
+const backgroundMusic = document.getElementById("background-music");
+const snakeSound = document.getElementById("snake-sound");
+const bubbleSound = document.getElementById("bubble-sound");
+const breakoutSound = document.getElementById("breakout-sound");
+var currentGameSound;
+var isMuted = false;
+
+// Set loop property for each sound element
+backgroundMusic.loop = true;
+snakeSound.loop = true;
+bubbleSound.loop = true;
+breakoutSound.loop = true;
+
+// Initially hide the mute button
+muteButton.style.display = "none";
+
+// Play music function
+function playMusic() {
+  if (!isMuted) {
+    if (currentGameSound) {
+      currentGameSound.play();
+    } else {
+      backgroundMusic.play();
+    }
+    playMusicButton.style.display = "none";
+    muteButton.style.display = "inline";
+  }
+}
+
+// Mute function
+function toggleMute() {
+  isMuted = !isMuted;
+
+  if (isMuted) {
+    if (currentGameSound) {
+      currentGameSound.pause();
+    } else {
+      backgroundMusic.pause();
+    }
+    muteButton.textContent = "Unmute";
+  } else {
+    if (currentGameSound) {
+      currentGameSound.play();
+    } else {
+      backgroundMusic.play();
+    }
+    muteButton.textContent = "Mute";
+  }
+}
+
+// Update the current game sound when a game is clicked
+function gameClicked(gameSound) {
+  if (currentGameSound) {
+    currentGameSound.pause();
+  }
+  backgroundMusic.pause(); // Pause the background theme
+  currentGameSound = gameSound;
+  playMusic();
+}
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
@@ -16,6 +77,7 @@ backButton.addEventListener('click', function () {
     document.getElementById('Bubble').hidden = true;
     document.getElementById('Breakout').hidden = true;
 });
+
 gameSelectionButtons.forEach(function (button) {
     button.addEventListener('click', function () {
         // Show the selected game canvas and hide the game selection buttons
@@ -1015,10 +1077,15 @@ class Game {
 
 const games = new Game();
 
-SnakeGame.onclick = function () { games.Snake() };
-BubbleGame.onclick = function () { games.BubblePop() };
-BreakoutGame.onclick = function () { games.Breakout() };
-
+SnakeGame.onclick = function () { games.Snake(); 
+    gameClicked(snakeSound);
+    };
+BubbleGame.onclick = function () { games.BubblePop(); 
+        gameClicked(bubbleSound);
+    };
+BreakoutGame.onclick = function () { games.Breakout();
+    gameClicked(breakoutSound);
+}
 
 backButton.addEventListener("click", function () {
     window.location.href = "https://htmlpreview.github.io/?https://github.com/hutruon/GamerDen.github.io/blob/main/dashboard.html";
@@ -1036,3 +1103,9 @@ backButton.addEventListener("mouseleave", function () {
     // Change the background color back to its original color
     backButton.style.backgroundColor = "";
 });
+
+//add event listener for when the user wants to play the sound
+playMusicButton.addEventListener("click", playMusic);
+
+//add event listener for when the user wants to mute/unmute the sound
+muteButton.addEventListener("click", toggleMute);
