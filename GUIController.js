@@ -1119,7 +1119,7 @@ playMusicButton.addEventListener("click", playMusic);
 
 //add event listener for when the user wants to mute/unmute the sound
 muteButton.addEventListener("click", toggleMute);
-=======
+
 pauseButton.addEventListener("mouseenter", function () {
     // Change the background color to a random color
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
