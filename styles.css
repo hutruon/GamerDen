@@ -245,4 +245,26 @@ body {
   .backgroundButtonsDiv {
     margin-top: 20px;
 }
+#pauseButton {
+    border-radius: 10px;;
+    transition: transform 0.2s ease-in-out;
+}
+
+#pauseButton:hover {
+    transform: scale(1.2);
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .backgroundButtonsDiv {
+    margin-top: 20px;
+}
 
