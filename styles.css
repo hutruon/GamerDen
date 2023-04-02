@@ -315,3 +315,19 @@ body {
   .play-music-button {
     right: 10px;
   }
+
+#pauseButton:hover {
+    transform: scale(1.2);
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+

@@ -1,3 +1,4 @@
+
 const gamesDiv = document.getElementById('threeGamesDiv');
 const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
@@ -88,7 +89,16 @@ gameSelectionButtons.forEach(function (button) {
         backButton.hidden = false;
     });
 });
-
+gameSelectionButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+        // Show the selected game canvas and hide the game selection buttons
+        const selectedGame = this.id;
+        document.getElementById(selectedGame).hidden = false;
+        document.getElementById('threeGamesDiv').hidden = true;
+        // Show the back button
+        pauseButton.hidden = false;
+    });
+});
 // Add event listener for when the mouse enters the button
 changeBackgroundButton.addEventListener("mouseenter", function () {
     // Change the background color to a random color
@@ -1109,3 +1119,15 @@ playMusicButton.addEventListener("click", playMusic);
 
 //add event listener for when the user wants to mute/unmute the sound
 muteButton.addEventListener("click", toggleMute);
+=======
+pauseButton.addEventListener("mouseenter", function () {
+    // Change the background color to a random color
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    pauseButton.style.backgroundColor = "#" + randomColor;
+});
+
+// Add event listener for when the mouse leaves the button
+pauseButton.addEventListener("mouseleave", function () {
+    // Change the background color back to its original color
+    pauseButton.style.backgroundColor = "";
+});
