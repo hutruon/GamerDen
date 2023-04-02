@@ -27,7 +27,6 @@ gameSelectionButtons.forEach(function (button) {
         backButton.hidden = false;
     });
 });
-
 gameSelectionButtons.forEach(function (button) {
     button.addEventListener('click', function () {
         // Show the selected game canvas and hide the game selection buttons
@@ -660,31 +659,6 @@ class Game {
             context.translate(curBubblePos.x, curBubblePos.y);
             context.rotate(shootDeg);
 
-            // draw walls
-            context.fillStyle = 'lightgrey';
-            context.fillRect(0, 0, canvas.width, wallSize);
-            context.fillRect(0, 0, wallSize, canvas.height);
-            context.fillRect(canvas.width - wallSize, 0, wallSize, canvas.height);
-
-            // draw bubbles and particles
-            bubbles.concat(particles).forEach(bubble => {
-                if (!bubble.active) return;
-                context.fillStyle = bubble.color;
-
-                // draw a circle
-                context.beginPath();
-                context.arc(bubble.x, bubble.y, bubble.radius, 0, 2 * Math.PI);
-                context.fill();
-            });
-
-            // draw fire arrow. since we're rotating the canvas we need to save
-            // the state and restore it when we're done
-            context.save();
-
-            // move to the center of the rotation (the middle of the bubble)
-            context.translate(curBubblePos.x, curBubblePos.y);
-            context.rotate(shootDeg);
-
             // move to the top-left corner of or fire arrow
             context.translate(0, -grid / 2 * 4.5);
 
@@ -1072,6 +1046,7 @@ backButton.addEventListener("mouseleave", function () {
     // Change the background color back to its original color
     backButton.style.backgroundColor = "";
 });
+
 pauseButton.addEventListener("mouseenter", function () {
     // Change the background color to a random color
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
