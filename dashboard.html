@@ -9,7 +9,9 @@
 </head>
 
 <body>
-    <img id="easterEggImage" src="meme.jpg" alt="Easter Egg" style="display:none; position: fixed; z-index: 100; top: 50%; left: 50%; transform: translate(-50%, -50%);">    <div class="titleDiv">
+    <img id="easterEggImage" src="meme.jpg" alt="Easter Egg"
+        style="display:none; position: fixed; z-index: 100; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div class="titleDiv">
         Welcome to the Gamer Den!
     </div>
     <div>
@@ -38,7 +40,7 @@
 
 
     <div>
-</div>
+    </div>
     <canvas width="400" height="400" id="Snake" hidden></canvas>
     <canvas width="271" height="392" id="Bubble" hidden></canvas>
     <canvas width="400" height="500" id="Breakout" hidden></canvas>
@@ -55,13 +57,39 @@
             </div>
         </div>
         <div class="backgroundButtonsDiv">
-            <button id="pauseButton" class="unique-shape"hidden>Pause</button>
+            <button id="pauseButton" class="unique-shape" hidden>Pause</button>
             <button id="changeBackgroundButton" class="unique-shape">Change Skin</button>
             <button id="revertBackgroundButton" class="unique-shape">Revert Original Skin</button>
         </div>
 
     </div>
     <button id="backButton" class="unique-shape" hidden>HomePage</button>
+    <!-- Help button dashboard -->
+    <button id="helpButtonDashboard">Help</button>
+    <div id="helpDropdown">
+        <div class="menu-item submenu">
+            <a href="#">Game play</a>
+            <div class="sub-dropdown">
+                <h2>Game Play</h2>
+                <p>Find important information about Game Play in this section.</p>
+            </div>
+        </div>
+        <div class="menu-item submenu">
+            <a href="#">Logging In</a>
+            <div class="sub-dropdown">
+                <h2>Logging In</h2>
+                <p>Find important information about logging in here.</p>
+            </div>
+        </div>
+        <div class="menu-item submenu">
+            <a href="#">Support</a>
+            <div class="sub-dropdown">
+                <a href="#">Technical Support</a>
+                <a href="#">Billing Support</a>
+                <a href="#">Product Support</a>
+            </div>
+        </div>
+    </div>
     <script src="GUIController.js"></script>
 </body>
 

@@ -19,6 +19,11 @@ var isMuted = false;
 let muteButtonClicked = false;
 let pauseButtonClicked = false;
 
+//Constants for Help menu
+const helpButtonDashboard = document.getElementById("helpButtonDashboard");
+const helpDropdown = document.getElementById("helpDropdown");
+const gamePlaySubMenu = document.querySelector('.submenu:nth-of-type(1) .sub-dropdown');
+
 function showEasterEgg() {
     const easterEggImage = document.getElementById("easterEggImage");
     easterEggImage.style.display = "block";
@@ -1198,3 +1203,52 @@ pauseButton.addEventListener("click", function () {
     pauseButtonClicked = !pauseButtonClicked;
     checkForEasterEgg();
 });
+
+//Help menu dashboard
+ // Add event listener for when the mouse enters the button
+ // This changes the color of the background
+ helpButtonDashboard.addEventListener("mouseenter", function() {
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    helpButtonDashboard.style.backgroundColor = "#" + randomColor;
+    helpDropdown.style.display = "block";
+});
+// Add event listener for when the moouse leaves the button
+// This reverts the color of the background
+helpButtonDashboard.addEventListener("mouseleave", function() {
+    helpButtonDashboard.style.backgroundColor = "";
+});
+// Add event listener for dropdown menu
+helpDropdown.addEventListener("mouseenter", function() {
+    helpDropdown.style.display = "block";
+});
+// Add event listener for dropdown menu
+helpDropdown.addEventListener("mouseleave", function() {
+    helpDropdown.style.display = "none";
+});
+
+//If user clicks snake game, update inner html of gameplay submenu
+SnakeGame.addEventListener("click", function() {
+  // Change the contents of the subdropdown menu
+  gamePlaySubMenu.innerHTML = `
+    <h2>Game Play - Snake</h2>
+    <p>Find important information about Snake game play in this section.</p>
+  `;
+});
+//If user clicks Bubble pop game, update inner html of gameplay submenu
+BubbleGame.addEventListener("click", function() {
+    // Change the contents of the subdropdown menu
+    gamePlaySubMenu.innerHTML = `
+      <h2>Game Play - Bubble Pop</h2>
+      <p>Find important information about Bubble Pop game play in this section.</p>
+    `;
+  });
+//If user clicks Bubble pop game, update inner html of gameplay submenu
+BreakoutGame.addEventListener("click", function() {
+    // Change the contents of the subdropdown menu
+    gamePlaySubMenu.innerHTML = `
+      <h2>Game Play - Breakout</h2>
+      <p>Find important information about Breakout game play in this section.</p>
+    `;
+  });
+//-------------------------------------------------------------------------------------
+
