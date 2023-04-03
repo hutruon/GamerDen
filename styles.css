@@ -330,6 +330,7 @@ body {
       transform: scale(1);
     }
   }
+
 /*Help button for dashboard*/
 #helpButtonDashboard {
   position: fixed;
