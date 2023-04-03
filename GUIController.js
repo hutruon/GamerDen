@@ -16,7 +16,25 @@ const bubbleSound = document.getElementById("bubble-sound");
 const breakoutSound = document.getElementById("breakout-sound");
 var currentGameSound;
 var isMuted = false;
+let muteButtonClicked = false;
+let pauseButtonClicked = false;
 
+function showEasterEgg() {
+    const easterEggImage = document.getElementById("easterEggImage");
+    easterEggImage.style.display = "block";
+    setTimeout(hideEasterEgg, 10000); // Hide the image after 10 seconds
+}
+
+function hideEasterEgg() {
+    const easterEggImage = document.getElementById("easterEggImage");
+    easterEggImage.style.display = "none";
+}
+
+function checkForEasterEgg() {
+    if (muteButtonClicked && pauseButtonClicked) {
+        showEasterEgg();
+    }
+}
 // Set loop property for each sound element
 backgroundMusic.loop = true;
 snakeSound.loop = true;
@@ -28,46 +46,46 @@ muteButton.style.display = "none";
 
 // Play music function
 function playMusic() {
-  if (!isMuted) {
-    if (currentGameSound) {
-      currentGameSound.play();
-    } else {
-      backgroundMusic.play();
+    if (!isMuted) {
+        if (currentGameSound) {
+            currentGameSound.play();
+        } else {
+            backgroundMusic.play();
+        }
+        playMusicButton.style.display = "none";
+        muteButton.style.display = "inline";
     }
-    playMusicButton.style.display = "none";
-    muteButton.style.display = "inline";
-  }
 }
 
 // Mute function
 function toggleMute() {
-  isMuted = !isMuted;
+    isMuted = !isMuted;
 
-  if (isMuted) {
-    if (currentGameSound) {
-      currentGameSound.pause();
+    if (isMuted) {
+        if (currentGameSound) {
+            currentGameSound.pause();
+        } else {
+            backgroundMusic.pause();
+        }
+        muteButton.textContent = "Unmute";
     } else {
-      backgroundMusic.pause();
+        if (currentGameSound) {
+            currentGameSound.play();
+        } else {
+            backgroundMusic.play();
+        }
+        muteButton.textContent = "Mute";
     }
-    muteButton.textContent = "Unmute";
-  } else {
-    if (currentGameSound) {
-      currentGameSound.play();
-    } else {
-      backgroundMusic.play();
-    }
-    muteButton.textContent = "Mute";
-  }
 }
 
 // Update the current game sound when a game is clicked
 function gameClicked(gameSound) {
-  if (currentGameSound) {
-    currentGameSound.pause();
-  }
-  backgroundMusic.pause(); // Pause the background theme
-  currentGameSound = gameSound;
-  playMusic();
+    if (currentGameSound) {
+        currentGameSound.pause();
+    }
+    backgroundMusic.pause(); // Pause the background theme
+    currentGameSound = gameSound;
+    playMusic();
 }
 
 // Store the original background image URL
@@ -246,6 +264,9 @@ class Game {
                         // canvas is 400x400 which is 25x25 grids
                         apple.x = getRandomInt(0, 25) * grid;
                         apple.y = getRandomInt(0, 25) * grid;
+
+                        // // Play the eat sound
+                        document.getElementById('eatSound').play();
                     }
 
                     // check collision with all cells after this one (modified bubble sort)
@@ -537,6 +558,7 @@ class Game {
                 matches.forEach(bubble => {
                     bubble.active = false;
                 });
+                document.getElementById('BubblePopSound').play();
             }
         }
 
@@ -907,12 +929,17 @@ class Game {
         // check for collision between two objects using axis-aligned bounding box (AABB)
         // @see https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
         function collides(obj1, obj2) {
-            return obj1.x < obj2.x + obj2.width &&
+            var isColliding = obj1.x < obj2.x + obj2.width &&
                 obj1.x + obj1.width > obj2.x &&
                 obj1.y < obj2.y + obj2.height &&
                 obj1.y + obj1.height > obj2.y;
+        
+            if (isColliding) {
+                document.getElementById('CollideSound').play();
+            }
+        
+            return isColliding;
         }
-
         // game loop
         function loop() {
             if (!isPaused) {
@@ -1087,13 +1114,16 @@ class Game {
 
 const games = new Game();
 
-SnakeGame.onclick = function () { games.Snake(); 
+SnakeGame.onclick = function () {
+    games.Snake();
     gameClicked(snakeSound);
-    };
-BubbleGame.onclick = function () { games.BubblePop(); 
-        gameClicked(bubbleSound);
-    };
-BreakoutGame.onclick = function () { games.Breakout();
+};
+BubbleGame.onclick = function () {
+    games.BubblePop();
+    gameClicked(bubbleSound);
+};
+BreakoutGame.onclick = function () {
+    games.Breakout();
     gameClicked(breakoutSound);
 }
 
@@ -1114,31 +1144,37 @@ backButton.addEventListener("mouseleave", function () {
     backButton.style.backgroundColor = "";
 });
 
+// Event listener for the play button
+playMusicButton.addEventListener("click", playMusic);
+
+// Event listener for the mute button
+muteButton.addEventListener("click", toggleMute);
+
 // Add event listener for when the mouse enters the button
 playMusicButton.addEventListener("mouseenter", function () {
     // Change the background color to a random color
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
     playMusicButton.style.backgroundColor = "#" + randomColor;
-  });
-  
-  // Add event listener for when the mouse leaves the button
-  playMusicButton.addEventListener("mouseleave", function () {
+});
+
+// Add event listener for when the mouse leaves the button
+playMusicButton.addEventListener("mouseleave", function () {
     // Change the background color back to its original color
     playMusicButton.style.backgroundColor = "";
-  });
-  
-  // Add event listener for when the mouse enters the button
-  muteButton.addEventListener("mouseenter", function () {
+});
+
+// Add event listener for when the mouse enters the button
+muteButton.addEventListener("mouseenter", function () {
     // Change the background color to a random color
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
     muteButton.style.backgroundColor = "#" + randomColor;
-  });
-  
-  // Add event listener for when the mouse leaves the button
-  muteButton.addEventListener("mouseleave", function () {
+});
+
+// Add event listener for when the mouse leaves the button
+muteButton.addEventListener("mouseleave", function () {
     // Change the background color back to its original color
     muteButton.style.backgroundColor = "";
-  });
+});
 
 pauseButton.addEventListener("mouseenter", function () {
     // Change the background color to a random color
@@ -1150,4 +1186,15 @@ pauseButton.addEventListener("mouseenter", function () {
 pauseButton.addEventListener("mouseleave", function () {
     // Change the background color back to its original color
     pauseButton.style.backgroundColor = "";
+});
+
+
+muteButton.addEventListener("click", function () {
+    muteButtonClicked = !muteButtonClicked;
+    checkForEasterEgg();
+});
+
+pauseButton.addEventListener("click", function () {
+    pauseButtonClicked = !pauseButtonClicked;
+    checkForEasterEgg();
 });
