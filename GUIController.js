@@ -99,17 +99,14 @@ function gameClicked(gameSound) {
 loginButton.onclick = function() {
   if(user.value === "SoggieMuffins" && pword.value === "1234"){
     alert("Hello");
-    hideLogin();
+    document.getElementById("login").hidden = true;
+    document.getElementById("contents").hidden = true;
   } else {
     document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
   }
  };
 
-//Hide Login elements
-  function hideLogin(){
-    document.getElementById("login").hidden = true;
-    document.getElementById("contents").hidden = true;
-  }
+
 
 
 // Store the original background image URL
