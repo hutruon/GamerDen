@@ -13,8 +13,8 @@ const backgroundMusic = document.getElementById("background-music");
 const snakeSound = document.getElementById("snake-sound");
 const bubbleSound = document.getElementById("bubble-sound");
 const breakoutSound = document.getElementById("breakout-sound");
-const user = document.getElementById("user");
-const pword = document.getElementById("password");
+var user = document.getElementById("user");
+var pword = document.getElementById("password");
 //Constants for Help menu
 const helpButtonDashboard = document.getElementById("helpButtonDashboard");
 const helpDropdown = document.getElementById("helpDropdown");
