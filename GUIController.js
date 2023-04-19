@@ -1,4 +1,5 @@
 const gamesDiv = document.getElementById('threeGamesDiv');
+const gamesSelectDiv = document.getElementById('gameSelectionDiv');
 const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
@@ -100,6 +101,7 @@ loginButton.onclick = function() {
   if(user.value === "SoggieMuffins" && pword.value === "1234"){
     document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + user.value + "!";
     hideLogin();
+    unhideGames;
   } else {
     document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
   }
@@ -108,6 +110,11 @@ loginButton.onclick = function() {
 function hideLogin(){
     document.getElementById("login").hidden = true;
     document.getElementById("contents").hidden = true;
+}
+
+function unhideGames(){
+   gamesDiv.hidden = false;
+   gamesSelectDiv.hidden = false;
 }
 
 
