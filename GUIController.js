@@ -98,7 +98,7 @@ function gameClicked(gameSound) {
 //Check correct user
 loginButton.onclick = function() {
   if(user.value === "SoggieMuffins" && pword.value === "1234"){
-    document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + user.value + "!";
+    document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + "Bob" + "!";
     hideLogin();
   } else {
     document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
