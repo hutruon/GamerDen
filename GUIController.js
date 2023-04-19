@@ -98,13 +98,16 @@ function gameClicked(gameSound) {
 //Check correct user
 loginButton.onclick = function() {
   if(user.value === "SoggieMuffins" && pword.value === "1234"){
-    document.getElementById("loginMessage").innerHTML = "Correct."; 
-    document.getElementById("login").hidden = true;
-    document.getElementById("contents").hidden = true;
+    hideLogin();
   } else {
     document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
   }
  };
+
+function hideLogin(){
+    document.getElementById("login").hidden = true;
+    document.getElementById("contents").hidden = true;
+}
 
 
 
