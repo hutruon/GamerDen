@@ -108,7 +108,7 @@ loginButton.onclick = function() {
  };
 
 function hideLogin(){
-    document.getElementById("login").hidden = true;
+    document.getElementById("login").style.display = "none";
     document.getElementById("contents").hidden = true;
 }
 
