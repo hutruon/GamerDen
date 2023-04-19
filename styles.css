@@ -381,3 +381,67 @@ body {
 .submenu:hover .sub-dropdown {
   display: block;
 }
+
+ #login{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+ }
+
+ #contents{
+  background-color: lightgray;
+  border-radius: 5px;
+  border-color: red;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 25px;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 25px;
+ }
+
+ #user{
+  border-radius: 5px;
+  display: block;
+  margin: 30px;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  font-family: "Lucida Console", "Courier New", monospace;  
+ }
+
+ #password{
+  border-radius: 5px;
+  display: block;
+  margin: 10px 30px;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: "Lucida Console", "Courier New", monospace;  
+ }
+
+ #loginButton{
+  background-color:cornflowerblue;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  display: block;
+  margin: 5px;
+ }
+
+ #loginButton:hover{opacity: 0.6;}
+ #password:hover{opacity: 0.6;}
+ #user:hover{opacity: 0.6;}
+
+ #loginButtonDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
