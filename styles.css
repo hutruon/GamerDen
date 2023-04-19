@@ -445,3 +445,10 @@ body {
   justify-content: center;
   align-items: center;
  }
+
+ #loginMessage{
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 10px;
+  text-align: center;
+  padding: 10px 5px;
+ }
