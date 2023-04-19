@@ -101,7 +101,7 @@ loginButton.onclick = function() {
   if(user.value === "SoggieMuffins" && pword.value === "1234"){
     document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + user.value + "!";
     hideLogin();
-    unhideGames;
+    unhideGames();
   } else {
     document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
   }
