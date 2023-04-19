@@ -13,6 +13,8 @@ const backgroundMusic = document.getElementById("background-music");
 const snakeSound = document.getElementById("snake-sound");
 const bubbleSound = document.getElementById("bubble-sound");
 const breakoutSound = document.getElementById("breakout-sound");
+const user = document.getElementById("user");
+const pword = document.getElementById("password");
 //Constants for Help menu
 const helpButtonDashboard = document.getElementById("helpButtonDashboard");
 const helpDropdown = document.getElementById("helpDropdown");
@@ -91,6 +93,24 @@ function gameClicked(gameSound) {
     currentGameSound = gameSound;
     playMusic();
 }
+
+
+//Check correct user
+loginButton.onclick = function() {
+  if(user.value === "SoggieMuffins" && pword.value === "1234"){
+    document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + user.value + "!";
+    hideLogin();
+  } else {
+    document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
+  }
+ };
+
+//Hide Login elements
+  function hideLogin(){
+    document.getElementById("login").hidden = true;
+    document.getElementById("contents").hidden = true;
+  }
+
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
