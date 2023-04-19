@@ -99,6 +99,7 @@ function gameClicked(gameSound) {
 loginButton.onclick = function() {
   if(user.value === "SoggieMuffins" && pword.value === "1234"){
     alert("Hello");
+    hideLogin();
   } else {
     document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
   }
