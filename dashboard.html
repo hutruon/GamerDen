@@ -11,7 +11,7 @@
 <body>
     <img id="easterEggImage" src="meme.jpg" alt="Easter Egg"
         style="display:none; position: fixed; z-index: 100; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-    <div class="titleDiv">
+    <div class="titleDiv" id="titleDiv">
         Welcome to the Gamer Den!
     </div>
     <div>
@@ -44,8 +44,24 @@
     <canvas width="400" height="400" id="Snake" hidden></canvas>
     <canvas width="271" height="392" id="Bubble" hidden></canvas>
     <canvas width="400" height="500" id="Breakout" hidden></canvas>
-    <div class="gameSelectionDiv">
-        <div class="threeGamesDiv" id="threeGamesDiv">
+    <div id="login">
+      <div id="contents">
+        Enter the Den!
+        <div>
+            <input id="user" type="text" name="usr" placeholder="Username" required autofocus>
+        </div>
+        <div>
+            <input id="password" type="password" placeholder="Password" name="pwd" required>
+        </div>
+        <div id="loginMessage">
+        </div>
+        <div id="loginButtonDiv">
+            <button id="loginButton" >Log In</button>
+        </div>
+      </div>
+    </div>
+    <div class="gameSelectionDiv" id="gameSelectionDiv" hidden>
+        <div class="threeGamesDiv" id="threeGamesDiv" hidden>
             <div>
                 <button class="game1" id="game1" type="button">Snake</button>
             </div>
