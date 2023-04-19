@@ -98,7 +98,6 @@ function gameClicked(gameSound) {
 //Check correct user
 loginButton.onclick = function() {
   if(user.value === "SoggieMuffins" && pword.value === "1234"){
-    alert("Hello");
     document.getElementById("login").hidden = true;
     document.getElementById("contents").hidden = true;
   } else {
