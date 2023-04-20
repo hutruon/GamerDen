@@ -1,24 +1,67 @@
-<!-- File: dashboard.html
--->
-<!-- File: dashboard.html
--->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Gamer Den</title>
 </head>
+
 <body>
-    <div class="titleDiv">
-        Welcome to the Gamer Den! 
+    <img id="easterEggImage" src="meme.jpg" alt="Easter Egg"
+        style="display:none; position: fixed; z-index: 100; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div class="titleDiv" id="titleDiv">
+        Welcome to the Gamer Den!
+    </div>
+    <div>
+        <button id="playMusicButton" class="button-style play-music-button">Play Music</button>
+        <button id="muteButton" class="button-style mute-button">Mute</button>
+    </div>
+    <audio id="background-music">
+        <source src="cave_sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="snake-sound">
+        <source src="snake_music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="bubble-sound">
+        <source src="popcorn_cookie_theme.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="breakout-sound">
+        <source src="breakout.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="eatSound" src="eat-sound.mp3" preload="auto"></audio>
+    <audio id="BubblePopSound" src="simple_bubble_pop.mp3" preload="auto"></audio>
+    <audio id="CollideSound" src="collide.mp3" preload="auto"></audio>
+
+
+    <div>
     </div>
     <canvas width="400" height="400" id="Snake" hidden></canvas>
     <canvas width="271" height="392" id="Bubble" hidden></canvas>
     <canvas width="400" height="500" id="Breakout" hidden></canvas>
-    <div class="gameSelectionDiv">
-        <div class="threeGamesDiv" id="threeGamesDiv">
+    <div id="login">
+      <div id="contents">
+        Enter the Den!
+        <div>
+            <input id="user" type="text" name="usr" placeholder="Username" required autofocus>
+        </div>
+        <div>
+            <input id="password" type="password" placeholder="Password" name="pwd" required>
+        </div>
+        <div id="loginMessage">
+        </div>
+        <div id="loginButtonDiv">
+            <button id="loginButton" >Log In</button>
+        </div>
+      </div>
+    </div>
+    <div class="gameSelectionDiv" id="gameSelectionDiv" hidden>
+        <div class="threeGamesDiv" id="threeGamesDiv" hidden>
             <div>
                 <button class="game1" id="game1" type="button">Snake</button>
             </div>
@@ -30,13 +73,36 @@
             </div>
         </div>
         <div class="backgroundButtonsDiv">
-            <button id="pauseButton" class="unique-shape"hidden>Pause</button>
-            <button id="pauseButton" class="unique-shape">Pause</button>
+            <button id="pauseButton" class="unique-shape" hidden>Pause</button>
             <button id="changeBackgroundButton" class="unique-shape">Change Skin</button>
             <button id="revertBackgroundButton" class="unique-shape">Revert Original Skin</button>
         </div>
+
     </div>
     <button id="backButton" class="unique-shape" hidden>HomePage</button>
+    <!-- Help button dashboard -->
+    <button id="helpButtonDashboard">Help</button>
+    <div id="helpDropdown">
+        <div class="menu-item submenu">
+            <a href="#">Game Play</a>
+            <div class="sub-dropdown">
+                <h2>Game Play</h2>
+                <p>Find important information about Game Play in this section.</p>
+            </div>
+        </div>
+        <div class="menu-item submenu">
+            <a href="#">Logging In</a>
+            <div class="sub-dropdown">
+                <h2>Logging In</h2>
+                <p>Login servers are currently offline. Thanks for your patience!</p>
+            </div>
+        </div>
+        <div class="menu-item submenu">
+            <a href="#">Support</a>
+            </div>
+        </div>
+    </div>
     <script src="GUIController.js"></script>
 </body>
+
 </html>

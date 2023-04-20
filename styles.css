@@ -5,9 +5,9 @@
     height: 10vh;
     color: rgb(162, 129, 19);
     font-family: 'Montserrat', sans-serif;
-    font-size: 50px;
+    font-size: 40px;
     text-transform: uppercase;
-    letter-spacing: 10px;
+    letter-spacing: 5px;
     animation: neon 3s ease-in-out infinite;
 }
 
@@ -264,7 +264,191 @@ body {
       transform: scale(1);
     }
   }
-  .backgroundButtonsDiv {
-    margin-top: 20px;
+
+  #pauseButton {
+    border-radius: 10px;;
+    transition: transform 0.2s ease-in-out;
 }
 
+#pauseButton:hover {
+    transform: scale(1.2);
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  } 
+  .button-style {
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+    position: absolute;
+    top: 100px;
+    margin-right: 10px;
+  }
+  
+  .button-style:hover {
+    transform: scale(1.2);
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .mute-button {
+    right: 10px;
+  }
+
+  .play-music-button {
+    right: 10px;
+  }
+
+#pauseButton:hover {
+    transform: scale(1.2);
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+/*Help button for dashboard*/
+#helpButtonDashboard {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  border-radius: 10px;
+  transition: transform 0.2s ease-in-out;
+}
+
+#helpDropdown {
+  position: fixed;
+  top: 35px;
+  left: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#helpDropdown a {
+  display: block;
+  padding: 5px 10px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+#helpDropdown a:hover {
+  background-color: #f5f5f5;
+}
+
+.submenu {
+  position: relative;
+}
+
+.sub-dropdown {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  width: 200px;
+}
+
+.submenu:hover .sub-dropdown {
+  display: block;
+}
+
+ #login{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+ }
+
+ #contents{
+  background-color: lightgray;
+  border-radius: 5px;
+  border-color: red;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 25px;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 25px;
+ }
+
+ #user{
+  border-radius: 5px;
+  display: block;
+  margin: 30px;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  font-family: "Lucida Console", "Courier New", monospace;  
+ }
+
+ #password{
+  border-radius: 5px;
+  display: block;
+  margin: 10px 30px;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: "Lucida Console", "Courier New", monospace;  
+ }
+
+ #loginButton{
+  background-color:cornflowerblue;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  display: block;
+  margin: 5px;
+ }
+
+ #loginButton:hover{opacity: 0.6;}
+ #password:hover{opacity: 0.6;}
+ #user:hover{opacity: 0.6;}
+
+ #loginButtonDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+
+ #loginMessage{
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 10px;
+  text-align: center;
+  padding: 10px 5px;
+ }

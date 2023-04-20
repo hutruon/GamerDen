@@ -1,4 +1,5 @@
 const gamesDiv = document.getElementById('threeGamesDiv');
+const gamesSelectDiv = document.getElementById('gameSelectionDiv');
 const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
@@ -13,15 +14,50 @@ const backgroundMusic = document.getElementById("background-music");
 const snakeSound = document.getElementById("snake-sound");
 const bubbleSound = document.getElementById("bubble-sound");
 const breakoutSound = document.getElementById("breakout-sound");
+var user = document.getElementById("user");
+var pword = document.getElementById("password");
+
 //Constants for Help menu
 const helpButtonDashboard = document.getElementById("helpButtonDashboard");
 const helpDropdown = document.getElementById("helpDropdown");
 const gamePlaySubMenu = document.querySelector('.submenu:nth-of-type(1) .sub-dropdown');
+const arrowSound = new Audio('arrow.mp3');
+const snakeMovingSound = new Audio('arrow.mp3');
+const paddleMovingSound = new Audio('arrow.mp3');
 var currentGameSound;
 var isMuted = false;
 let muteButtonClicked = false;
 let pauseButtonClicked = false;
+function createPopupaAD() {
+    const messages = [
+        "THIS WOULD BE AN AD",
+        "USING AN API",
+        "BUT I DON'T WANT TO GET CHARGED",
+        "SO I USE THIS MESSAGE INSTEAD",
+    ];
+    let currentIndex = 0;
+    const popupDiv = document.createElement("div");
+    popupDiv.id = "popup-messages";
+    popupDiv.style.position = "absolute";
+    popupDiv.style.left = "20px";
+    popupDiv.style.backgroundColor = "#f1f1f1";
+    popupDiv.style.padding = "20px";
+    popupDiv.style.border = "2px solid #888";
+    popupDiv.style.zIndex = 1000;
+    document.body.appendChild(popupDiv);
 
+    // Position the popupDiv below the playMusicButton
+    const playMusicButton = document.getElementById("playMusicButton");
+    const playMusicButtonRect = playMusicButton.getBoundingClientRect();
+    popupDiv.style.top = playMusicButtonRect.bottom + 10 + "px";
+
+    const updateMessage = () => {
+        popupDiv.innerHTML = messages[currentIndex];
+        currentIndex = (currentIndex + 1) % messages.length;
+        setTimeout(updateMessage, 5000);
+    };
+    updateMessage();
+}
 
 function showEasterEgg() {
     const easterEggImage = document.getElementById("easterEggImage");
@@ -91,6 +127,28 @@ function gameClicked(gameSound) {
     currentGameSound = gameSound;
     playMusic();
 }
+
+//Check correct user
+loginButton.onclick = function() {
+  if(user.value === "SoggieMuffins" && pword.value === "1234"){
+    document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + user.value + "!";
+    hideLogin();
+    unhideGames();
+  } else {
+    document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
+  }
+ };
+
+function hideLogin(){
+    document.getElementById("login").style.display = "none";
+    document.getElementById("contents").hidden = true;
+}
+
+function unhideGames(){
+   gamesDiv.hidden = false;
+   gamesSelectDiv.hidden = false;
+}
+
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
@@ -302,6 +360,8 @@ class Game {
                         scoreDiv.textContent = 'Score: ' + score;
                 
                         // Play the eat sound
+
+                        // // Play the eat sound
                         document.getElementById('eatSound').play();
                     }
 
@@ -350,21 +410,25 @@ class Game {
             if (e.which === 37 && snake.dx === 0) {
                 snake.dx = -grid;
                 snake.dy = 0;
+                snakeMovingSound.play();
             }
             // up arrow key
             else if (e.which === 38 && snake.dy === 0) {
                 snake.dy = -grid;
                 snake.dx = 0;
+                snakeMovingSound.play();
             }
             // right arrow key
             else if (e.which === 39 && snake.dx === 0) {
                 snake.dx = grid;
                 snake.dy = 0;
+                snakeMovingSound.play();
             }
             // down arrow key
             else if (e.which === 40 && snake.dy === 0) {
                 snake.dy = grid;
                 snake.dx = 0;
+                snakeMovingSound.play();
             }
         });
         //make awsd key
@@ -373,21 +437,26 @@ class Game {
             if ((e.which === 37 || e.which === 65) && snake.dx === 0) {
                 snake.dx = -grid;
                 snake.dy = 0;
+                snakeMovingSound.play();
             }
             // up arrow key or W key
             else if ((e.which === 38 || e.which === 87) && snake.dy === 0) {
                 snake.dy = -grid;
                 snake.dx = 0;
+                snakeMovingSound.play();
+                
             }
             // right arrow key or D key
             else if ((e.which === 39 || e.which === 68) && snake.dx === 0) {
                 snake.dx = grid;
                 snake.dy = 0;
+                snakeMovingSound.play();
             }
             // down arrow key or S key
             else if ((e.which === 40 || e.which === 83) && snake.dy === 0) {
                 snake.dy = grid;
                 snake.dx = 0;
+                snakeMovingSound.play();
             }
         });
 
@@ -863,9 +932,11 @@ class Game {
         document.addEventListener('keydown', (e) => {
             if (e.code === 'ArrowLeft') {
                 shootDir = -1;
+                arrowSound.play();
             }
             else if (e.code === 'ArrowRight') {
                 shootDir = 1;
+                arrowSound.play();
             }
 
             // if the current bubble is not moving we can launch it
@@ -1059,6 +1130,7 @@ class Game {
                     // update the score displayed in the scoreDiv element
                     scoreDiv.textContent = 'Score: ' + score;
                 }
+                document.getElementById('CollideSound').play();
             }
         
             return isColliding;
@@ -1183,10 +1255,14 @@ class Game {
             // left arrow key
             if (e.which === 37) {
                 paddle.dx = -3;
+                paddleMovingSound.play();
+
             }
             // right arrow key
             else if (e.which === 39) {
                 paddle.dx = 3;
+                paddleMovingSound.play();
+
             }
 
             // space key
@@ -1207,10 +1283,14 @@ class Game {
                 // A key
                 if (e.which === 65) {
                     paddle.dx = -3;
+                    paddleMovingSound.play();
+
                 }
                 // D key
                 else if (e.which === 68) {
                     paddle.dx = 3;
+                    paddleMovingSound.play();;
+
                 }
 
                 // W key
@@ -1375,3 +1455,5 @@ BreakoutGame.addEventListener("click", function() {
       the ball against the blue paddle.</p>
     `;
   });
+
+createPopupaAD();
