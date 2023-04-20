@@ -21,7 +21,6 @@ var pword = document.getElementById("password");
 const helpButtonDashboard = document.getElementById("helpButtonDashboard");
 const helpDropdown = document.getElementById("helpDropdown");
 const gamePlaySubMenu = document.querySelector('.submenu:nth-of-type(1) .sub-dropdown');
-
 const arrowSound = new Audio('arrow.mp3');
 const snakeMovingSound = new Audio('arrow.mp3');
 const paddleMovingSound = new Audio('arrow.mp3');
@@ -29,8 +28,6 @@ var currentGameSound;
 var isMuted = false;
 let muteButtonClicked = false;
 let pauseButtonClicked = false;
-
-
 function createPopupaAD() {
     const messages = [
         "THIS WOULD BE AN AD",
@@ -132,7 +129,6 @@ function gameClicked(gameSound) {
     playMusic();
 }
 
-
 //Check correct user
 loginButton.onclick = function() {
   if(user.value === "SoggieMuffins" && pword.value === "1234"){
@@ -153,8 +149,6 @@ function unhideGames(){
    gamesDiv.hidden = false;
    gamesSelectDiv.hidden = false;
 }
-
-
 
 
 // Store the original background image URL
@@ -227,8 +221,8 @@ class Game {
 
     }
 
-
     Snake() {
+
         var canvas = document.getElementById('Snake');
         var context = canvas.getContext('2d');
         canvas.style.display = 'block';
@@ -273,8 +267,36 @@ class Game {
             return Math.floor(Math.random() * (max - min)) + min;
         }
 
+        // initialize score to zero
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '175px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '175px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
+
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
+
 
             if (!isPaused) {
                 requestAnimationFrame(loop);
@@ -329,10 +351,16 @@ class Game {
                     // snake ate apple
                     if (cell.x === apple.x && cell.y === apple.y) {
                         snake.maxCells++;
-
+                
                         // canvas is 400x400 which is 25x25 grids
                         apple.x = getRandomInt(0, 25) * grid;
                         apple.y = getRandomInt(0, 25) * grid;
+                
+                        // increment score
+                        score += 1;
+                        scoreDiv.textContent = 'Score: ' + score;
+                
+                        // Play the eat sound
 
                         // // Play the eat sound
                         document.getElementById('eatSound').play();
@@ -349,9 +377,12 @@ class Game {
                             snake.maxCells = 4;
                             snake.dx = grid;
                             snake.dy = 0;
-
+                            
                             apple.x = getRandomInt(0, 25) * grid;
                             apple.y = getRandomInt(0, 25) * grid;
+                            score = 0;
+                            scoreDiv.textContent = 'Score: ' + score;
+                            startTime = Date.now();
                         }
                     }
                 });
@@ -448,6 +479,29 @@ class Game {
         canvas.style.top = '300%';
         canvas.style.left = '50%';
         canvas.style.transform = 'translate(-50%, -50%)';
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '175px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '175px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
 
         gamesDiv.style.display = 'none';
         // puzzle bubble is played on a hex grid. instead of doing complicated
@@ -736,6 +790,8 @@ class Game {
 
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
             requestAnimationFrame(loop);
             context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -769,6 +825,34 @@ class Game {
                 // make the closest inactive bubble active
                 const closestBubble = getClosestBubble(curBubble);
                 handleCollision(closestBubble);
+            }
+            function getClosestBubble(obj, activeState = false) {
+                const closestBubbles = bubbles
+                    .filter(bubble => bubble.active == activeState && collides(obj, bubble));
+            
+                if (!closestBubbles.length) {
+                    return;
+                }
+            
+                const closestBubble = closestBubbles
+                    // turn the array of bubbles into an array of distances
+                    .map(bubble => {
+                        return {
+                            distance: getDistance(obj, bubble),
+                            bubble
+                        }
+                    })
+                    .sort((a, b) => a.distance - b.distance)[0].bubble;
+            
+                // if the closest bubble is inactive, activate it and add to the score
+                if (!closestBubble.active) {
+                    closestBubble.active = true;
+                    closestBubble.color = obj.color;
+                    score += 10; // add 10 points to the score
+                    document.getElementById('score').textContent = 'Score: ' + score;
+                }
+            
+                return closestBubble;
             }
 
             // check to see if bubble collides with another bubble
@@ -924,6 +1008,29 @@ class Game {
         canvas.style.top = '300%';
         canvas.style.left = '50%';
         canvas.style.transform = 'translate(-50%, -50%)';
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '120px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '120px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
 
         gamesDiv.style.display = 'none';
 
@@ -953,7 +1060,6 @@ class Game {
             'G': 'green',
             'Y': 'yellow'
         };
-
         // use a 2px gap between each brick
         const brickGap = 2;
         const brickWidth = 25;
@@ -980,7 +1086,6 @@ class Game {
                 });
             }
         }
-
         const paddle = {
             // place the paddle horizontally in the middle of the screen
             x: canvas.width / 2 - brickWidth / 2,
@@ -1015,6 +1120,17 @@ class Game {
                 obj1.y + obj1.height > obj2.y;
         
             if (isColliding) {
+                // check if the colliding object is a brick
+                if (obj2.color) {
+                    // remove the brick from the bricks array
+                    bricks.splice(bricks.indexOf(obj2), 1);
+        
+                    // increment the score counter
+                    score++;
+        
+                    // update the score displayed in the scoreDiv element
+                    scoreDiv.textContent = 'Score: ' + score;
+                }
                 document.getElementById('CollideSound').play();
             }
         
@@ -1022,6 +1138,8 @@ class Game {
         }
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
             if (!isPaused) {
                 requestAnimationFrame(loop);
                 context.clearRect(0, 0, canvas.width, canvas.height);
@@ -1338,6 +1456,5 @@ BreakoutGame.addEventListener("click", function() {
       the ball against the blue paddle.</p>
     `;
   });
-//-------------------------------------------------------------------------------------
 
 createPopupaAD();
