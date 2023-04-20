@@ -39,7 +39,6 @@ function createPopupaAD() {
     const popupDiv = document.createElement("div");
     popupDiv.id = "popup-messages";
     popupDiv.style.position = "absolute";
-    popupDiv.style.top = "150px";
     popupDiv.style.right = "20px";
     popupDiv.style.backgroundColor = "#f1f1f1";
     popupDiv.style.padding = "20px";
