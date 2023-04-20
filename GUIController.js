@@ -151,12 +151,12 @@ function unhideGames(){
    gamesSelectDiv.hidden = false;
 }
 
+
 function hideGF(){
     document.getElementById("container").style.display = "none";
     document.getElementById('google-login').hidden = true;
     document.getElementById('facebook-login').hidden = true;
 }
-
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
