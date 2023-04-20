@@ -135,6 +135,7 @@ loginButton.onclick = function() {
     document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + user.value + "!";
     hideLogin();
     unhideGames();
+    hideGF();
   } else {
     document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
   }
@@ -150,6 +151,12 @@ function unhideGames(){
    gamesSelectDiv.hidden = false;
 }
 
+
+function hideGF(){
+    document.getElementById("container").style.display = "none";
+    document.getElementById('google-login').hidden = true;
+    document.getElementById('facebook-login').hidden = true;
+}
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
