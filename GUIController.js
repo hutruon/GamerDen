@@ -1,4 +1,3 @@
-
 const gamesDiv = document.getElementById('threeGamesDiv');
 const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
@@ -8,6 +7,90 @@ const gameSelectionButtons = document.querySelectorAll('.threeGamesDiv button');
 const changeBackgroundButton = document.getElementById('changeBackgroundButton');
 const revertBackgroundButton = document.getElementById('revertBackgroundButton');
 const body = document.getElementsByTagName('body')[0];
+const playMusicButton = document.getElementById("playMusicButton");
+const muteButton = document.getElementById("muteButton");
+const backgroundMusic = document.getElementById("background-music");
+const snakeSound = document.getElementById("snake-sound");
+const bubbleSound = document.getElementById("bubble-sound");
+const breakoutSound = document.getElementById("breakout-sound");
+//Constants for Help menu
+const helpButtonDashboard = document.getElementById("helpButtonDashboard");
+const helpDropdown = document.getElementById("helpDropdown");
+const gamePlaySubMenu = document.querySelector('.submenu:nth-of-type(1) .sub-dropdown');
+var currentGameSound;
+var isMuted = false;
+let muteButtonClicked = false;
+let pauseButtonClicked = false;
+
+
+function showEasterEgg() {
+    const easterEggImage = document.getElementById("easterEggImage");
+    easterEggImage.style.display = "block";
+    setTimeout(hideEasterEgg, 10000); // Hide the image after 10 seconds
+}
+
+function hideEasterEgg() {
+    const easterEggImage = document.getElementById("easterEggImage");
+    easterEggImage.style.display = "none";
+}
+
+function checkForEasterEgg() {
+    if (muteButtonClicked && pauseButtonClicked) {
+        showEasterEgg();
+    }
+}
+// Set loop property for each sound element
+backgroundMusic.loop = true;
+snakeSound.loop = true;
+bubbleSound.loop = true;
+breakoutSound.loop = true;
+
+// Initially hide the mute button
+muteButton.style.display = "none";
+
+// Play music function
+function playMusic() {
+    if (!isMuted) {
+        if (currentGameSound) {
+            currentGameSound.play();
+        } else {
+            backgroundMusic.play();
+        }
+        playMusicButton.style.display = "none";
+        muteButton.style.display = "inline";
+    }
+}
+
+// Mute function
+function toggleMute() {
+    isMuted = !isMuted;
+
+    if (isMuted) {
+        if (currentGameSound) {
+            currentGameSound.pause();
+        } else {
+            backgroundMusic.pause();
+        }
+        muteButton.textContent = "Unmute";
+    } else {
+        if (currentGameSound) {
+            currentGameSound.play();
+        } else {
+            backgroundMusic.play();
+        }
+        muteButton.textContent = "Mute";
+    }
+}
+
+// Update the current game sound when a game is clicked
+function gameClicked(gameSound) {
+    if (currentGameSound) {
+        currentGameSound.pause();
+    }
+    backgroundMusic.pause(); // Pause the background theme
+    currentGameSound = gameSound;
+    playMusic();
+}
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
@@ -17,6 +100,7 @@ backButton.addEventListener('click', function () {
     document.getElementById('Bubble').hidden = true;
     document.getElementById('Breakout').hidden = true;
 });
+
 gameSelectionButtons.forEach(function (button) {
     button.addEventListener('click', function () {
         // Show the selected game canvas and hide the game selection buttons
@@ -27,7 +111,6 @@ gameSelectionButtons.forEach(function (button) {
         backButton.hidden = false;
     });
 });
-
 gameSelectionButtons.forEach(function (button) {
     button.addEventListener('click', function () {
         // Show the selected game canvas and hide the game selection buttons
@@ -79,8 +162,8 @@ class Game {
 
     }
 
-
     Snake() {
+
         var canvas = document.getElementById('Snake');
         var context = canvas.getContext('2d');
         canvas.style.display = 'block';
@@ -125,8 +208,36 @@ class Game {
             return Math.floor(Math.random() * (max - min)) + min;
         }
 
+        // initialize score to zero
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '175px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '175px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
+
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
+
 
             if (!isPaused) {
                 requestAnimationFrame(loop);
@@ -181,10 +292,17 @@ class Game {
                     // snake ate apple
                     if (cell.x === apple.x && cell.y === apple.y) {
                         snake.maxCells++;
-
+                
                         // canvas is 400x400 which is 25x25 grids
                         apple.x = getRandomInt(0, 25) * grid;
                         apple.y = getRandomInt(0, 25) * grid;
+                
+                        // increment score
+                        score += 1;
+                        scoreDiv.textContent = 'Score: ' + score;
+                
+                        // Play the eat sound
+                        document.getElementById('eatSound').play();
                     }
 
                     // check collision with all cells after this one (modified bubble sort)
@@ -198,9 +316,12 @@ class Game {
                             snake.maxCells = 4;
                             snake.dx = grid;
                             snake.dy = 0;
-
+                            
                             apple.x = getRandomInt(0, 25) * grid;
                             apple.y = getRandomInt(0, 25) * grid;
+                            score = 0;
+                            scoreDiv.textContent = 'Score: ' + score;
+                            startTime = Date.now();
                         }
                     }
                 });
@@ -288,6 +409,29 @@ class Game {
         canvas.style.top = '300%';
         canvas.style.left = '50%';
         canvas.style.transform = 'translate(-50%, -50%)';
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '175px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '175px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
 
         gamesDiv.style.display = 'none';
         // puzzle bubble is played on a hex grid. instead of doing complicated
@@ -476,6 +620,7 @@ class Game {
                 matches.forEach(bubble => {
                     bubble.active = false;
                 });
+                document.getElementById('BubblePopSound').play();
             }
         }
 
@@ -575,6 +720,8 @@ class Game {
 
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
             requestAnimationFrame(loop);
             context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -609,6 +756,34 @@ class Game {
                 const closestBubble = getClosestBubble(curBubble);
                 handleCollision(closestBubble);
             }
+            function getClosestBubble(obj, activeState = false) {
+                const closestBubbles = bubbles
+                    .filter(bubble => bubble.active == activeState && collides(obj, bubble));
+            
+                if (!closestBubbles.length) {
+                    return;
+                }
+            
+                const closestBubble = closestBubbles
+                    // turn the array of bubbles into an array of distances
+                    .map(bubble => {
+                        return {
+                            distance: getDistance(obj, bubble),
+                            bubble
+                        }
+                    })
+                    .sort((a, b) => a.distance - b.distance)[0].bubble;
+            
+                // if the closest bubble is inactive, activate it and add to the score
+                if (!closestBubble.active) {
+                    closestBubble.active = true;
+                    closestBubble.color = obj.color;
+                    score += 10; // add 10 points to the score
+                    document.getElementById('score').textContent = 'Score: ' + score;
+                }
+            
+                return closestBubble;
+            }
 
             // check to see if bubble collides with another bubble
             for (let i = 0; i < bubbles.length; i++) {
@@ -634,31 +809,6 @@ class Game {
 
             // remove particles that went off the screen
             particles = particles.filter(particles => particles.y < canvas.height - grid / 2);
-
-            // draw walls
-            context.fillStyle = 'lightgrey';
-            context.fillRect(0, 0, canvas.width, wallSize);
-            context.fillRect(0, 0, wallSize, canvas.height);
-            context.fillRect(canvas.width - wallSize, 0, wallSize, canvas.height);
-
-            // draw bubbles and particles
-            bubbles.concat(particles).forEach(bubble => {
-                if (!bubble.active) return;
-                context.fillStyle = bubble.color;
-
-                // draw a circle
-                context.beginPath();
-                context.arc(bubble.x, bubble.y, bubble.radius, 0, 2 * Math.PI);
-                context.fill();
-            });
-
-            // draw fire arrow. since we're rotating the canvas we need to save
-            // the state and restore it when we're done
-            context.save();
-
-            // move to the center of the rotation (the middle of the bubble)
-            context.translate(curBubblePos.x, curBubblePos.y);
-            context.rotate(shootDeg);
 
             // draw walls
             context.fillStyle = 'lightgrey';
@@ -786,6 +936,29 @@ class Game {
         canvas.style.top = '300%';
         canvas.style.left = '50%';
         canvas.style.transform = 'translate(-50%, -50%)';
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '120px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '120px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
 
         gamesDiv.style.display = 'none';
 
@@ -815,7 +988,6 @@ class Game {
             'G': 'green',
             'Y': 'yellow'
         };
-
         // use a 2px gap between each brick
         const brickGap = 2;
         const brickWidth = 25;
@@ -842,7 +1014,6 @@ class Game {
                 });
             }
         }
-
         const paddle = {
             // place the paddle horizontally in the middle of the screen
             x: canvas.width / 2 - brickWidth / 2,
@@ -871,14 +1042,31 @@ class Game {
         // check for collision between two objects using axis-aligned bounding box (AABB)
         // @see https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
         function collides(obj1, obj2) {
-            return obj1.x < obj2.x + obj2.width &&
+            var isColliding = obj1.x < obj2.x + obj2.width &&
                 obj1.x + obj1.width > obj2.x &&
                 obj1.y < obj2.y + obj2.height &&
                 obj1.y + obj1.height > obj2.y;
+        
+            if (isColliding) {
+                // check if the colliding object is a brick
+                if (obj2.color) {
+                    // remove the brick from the bricks array
+                    bricks.splice(bricks.indexOf(obj2), 1);
+        
+                    // increment the score counter
+                    score++;
+        
+                    // update the score displayed in the scoreDiv element
+                    scoreDiv.textContent = 'Score: ' + score;
+                }
+            }
+        
+            return isColliding;
         }
-
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
             if (!isPaused) {
                 requestAnimationFrame(loop);
                 context.clearRect(0, 0, canvas.width, canvas.height);
@@ -1051,10 +1239,18 @@ class Game {
 
 const games = new Game();
 
-SnakeGame.onclick = function () { games.Snake() };
-BubbleGame.onclick = function () { games.BubblePop() };
-BreakoutGame.onclick = function () { games.Breakout() };
-
+SnakeGame.onclick = function () {
+    games.Snake();
+    gameClicked(snakeSound);
+};
+BubbleGame.onclick = function () {
+    games.BubblePop();
+    gameClicked(bubbleSound);
+};
+BreakoutGame.onclick = function () {
+    games.Breakout();
+    gameClicked(breakoutSound);
+}
 
 backButton.addEventListener("click", function () {
     window.location.href = "https://htmlpreview.github.io/?https://github.com/hutruon/GamerDen.github.io/blob/main/dashboard.html";
@@ -1072,6 +1268,39 @@ backButton.addEventListener("mouseleave", function () {
     // Change the background color back to its original color
     backButton.style.backgroundColor = "";
 });
+
+// Event listener for the play button
+playMusicButton.addEventListener("click", playMusic);
+
+// Event listener for the mute button
+muteButton.addEventListener("click", toggleMute);
+
+// Add event listener for when the mouse enters the button
+playMusicButton.addEventListener("mouseenter", function () {
+    // Change the background color to a random color
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    playMusicButton.style.backgroundColor = "#" + randomColor;
+});
+
+// Add event listener for when the mouse leaves the button
+playMusicButton.addEventListener("mouseleave", function () {
+    // Change the background color back to its original color
+    playMusicButton.style.backgroundColor = "";
+});
+
+// Add event listener for when the mouse enters the button
+muteButton.addEventListener("mouseenter", function () {
+    // Change the background color to a random color
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    muteButton.style.backgroundColor = "#" + randomColor;
+});
+
+// Add event listener for when the mouse leaves the button
+muteButton.addEventListener("mouseleave", function () {
+    // Change the background color back to its original color
+    muteButton.style.backgroundColor = "";
+});
+
 pauseButton.addEventListener("mouseenter", function () {
     // Change the background color to a random color
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
@@ -1083,3 +1312,66 @@ pauseButton.addEventListener("mouseleave", function () {
     // Change the background color back to its original color
     pauseButton.style.backgroundColor = "";
 });
+
+
+muteButton.addEventListener("click", function () {
+    muteButtonClicked = !muteButtonClicked;
+    checkForEasterEgg();
+});
+
+pauseButton.addEventListener("click", function () {
+    pauseButtonClicked = !pauseButtonClicked;
+    checkForEasterEgg();
+});
+
+//-------------------------------------------------------------------------------------
+//Help menu dashboard
+// Add event listener for when the mouse enters the button
+// This changes the color of the background
+helpButtonDashboard.addEventListener("mouseenter", function() {
+    const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    helpButtonDashboard.style.backgroundColor = "#" + randomColor;
+    helpDropdown.style.display = "block";
+});
+// Add event listener for when the moouse leaves the button
+// This reverts the color of the background
+helpButtonDashboard.addEventListener("mouseleave", function() {
+    helpButtonDashboard.style.backgroundColor = "";
+});
+// Add event listener for dropdown menu
+helpDropdown.addEventListener("mouseenter", function() {
+    helpDropdown.style.display = "block";
+});
+// Add event listener for dropdown menu
+helpDropdown.addEventListener("mouseleave", function() {
+    helpDropdown.style.display = "none";
+});
+
+//If user clicks snake game, update inner html of gameplay submenu
+SnakeGame.addEventListener("click", function() {
+  // Change the contents of the subdropdown menu
+  gamePlaySubMenu.innerHTML = `
+    <h2>Game Play - Snake</h2>
+    <p>How to play:</p>
+    <p>Collect the red squares that appear on screen. Each square 
+    will make the snake grow one square. If you hit your own snake, it's game over.</p>
+  `;
+});
+//If user clicks Bubble pop game, update inner html of gameplay submenu
+BubbleGame.addEventListener("click", function() {
+    // Change the contents of the subdropdown menu
+    gamePlaySubMenu.innerHTML = `
+      <h2>Game Play - Bubble Pop</h2>
+      <p>Point the arrow towards the corresponding color of your current color. 
+      Avoid hitting non-corresponding colors and filling the page full of bubbles.</p>
+    `;
+  });
+//If user clicks Bubble pop game, update inner html of gameplay submenu
+BreakoutGame.addEventListener("click", function() {
+    // Change the contents of the subdropdown menu
+    gamePlaySubMenu.innerHTML = `
+      <h2>Game Play - Breakout</h2>
+      <p>Press the space bar to start. The goal is to break through the blocks by bouncing 
+      the ball against the blue paddle.</p>
+    `;
+  });
