@@ -1,4 +1,5 @@
 const gamesDiv = document.getElementById('threeGamesDiv');
+const gamesSelectDiv = document.getElementById('gameSelectionDiv');
 const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
@@ -13,10 +14,14 @@ const backgroundMusic = document.getElementById("background-music");
 const snakeSound = document.getElementById("snake-sound");
 const bubbleSound = document.getElementById("bubble-sound");
 const breakoutSound = document.getElementById("breakout-sound");
+var user = document.getElementById("user");
+var pword = document.getElementById("password");
+
 //Constants for Help menu
 const helpButtonDashboard = document.getElementById("helpButtonDashboard");
 const helpDropdown = document.getElementById("helpDropdown");
 const gamePlaySubMenu = document.querySelector('.submenu:nth-of-type(1) .sub-dropdown');
+
 const arrowSound = new Audio('arrow.mp3');
 const snakeMovingSound = new Audio('arrow.mp3');
 const paddleMovingSound = new Audio('arrow.mp3');
@@ -24,6 +29,7 @@ var currentGameSound;
 var isMuted = false;
 let muteButtonClicked = false;
 let pauseButtonClicked = false;
+
 
 function createPopupaAD() {
     const messages = [
@@ -124,6 +130,31 @@ function gameClicked(gameSound) {
     currentGameSound = gameSound;
     playMusic();
 }
+
+
+//Check correct user
+loginButton.onclick = function() {
+  if(user.value === "SoggieMuffins" && pword.value === "1234"){
+    document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + user.value + "!";
+    hideLogin();
+    unhideGames();
+  } else {
+    document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
+  }
+ };
+
+function hideLogin(){
+    document.getElementById("login").style.display = "none";
+    document.getElementById("contents").hidden = true;
+}
+
+function unhideGames(){
+   gamesDiv.hidden = false;
+   gamesSelectDiv.hidden = false;
+}
+
+
+
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
