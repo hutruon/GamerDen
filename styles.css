@@ -5,9 +5,9 @@
     height: 10vh;
     color: rgb(162, 129, 19);
     font-family: 'Montserrat', sans-serif;
-    font-size: 50px;
+    font-size: 40px;
     text-transform: uppercase;
-    letter-spacing: 10px;
+    letter-spacing: 5px;
     animation: neon 3s ease-in-out infinite;
 }
 
@@ -380,4 +380,116 @@ body {
 
 .submenu:hover .sub-dropdown {
   display: block;
+}
+
+ #login{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+ }
+
+ #contents{
+  background-color: lightgray;
+  border-radius: 5px;
+  border-color: red;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 25px;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 25px;
+ }
+
+ #user{
+  border-radius: 5px;
+  display: block;
+  margin: 30px;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  font-family: "Lucida Console", "Courier New", monospace;  
+ }
+
+ #password{
+  border-radius: 5px;
+  display: block;
+  margin: 10px 30px;
+  width: 150px;
+  height: 30px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: "Lucida Console", "Courier New", monospace;  
+ }
+
+ #loginButton{
+  background-color:cornflowerblue;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  display: block;
+  margin: 5px;
+ }
+
+ #loginButton:hover{opacity: 0.6;}
+ #password:hover{opacity: 0.6;}
+ #user:hover{opacity: 0.6;}
+
+ #loginButtonDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+
+ #loginMessage{
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 10px;
+  text-align: center;
+  padding: 10px 5px;
+ }
+
+
+
+ .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px;
+  width: 200px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.login-btn:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.google {
+  background-color: #1877f2;
+  color: white;
+}
+
+.facebook {
+  background-color: #1877f2;
+  color: white;
 }

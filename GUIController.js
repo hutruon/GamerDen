@@ -1,4 +1,5 @@
 const gamesDiv = document.getElementById('threeGamesDiv');
+const gamesSelectDiv = document.getElementById('gameSelectionDiv');
 const SnakeGame = document.getElementById('game1');
 const BubbleGame = document.getElementById('game2');
 const BreakoutGame = document.getElementById('game3');
@@ -13,15 +14,51 @@ const backgroundMusic = document.getElementById("background-music");
 const snakeSound = document.getElementById("snake-sound");
 const bubbleSound = document.getElementById("bubble-sound");
 const breakoutSound = document.getElementById("breakout-sound");
+var user = document.getElementById("user");
+var pword = document.getElementById("password");
+
 //Constants for Help menu
 const helpButtonDashboard = document.getElementById("helpButtonDashboard");
 const helpDropdown = document.getElementById("helpDropdown");
 const gamePlaySubMenu = document.querySelector('.submenu:nth-of-type(1) .sub-dropdown');
+const arrowSound = new Audio('arrow.mp3');
+const snakeMovingSound = new Audio('arrow.mp3');
+const paddleMovingSound = new Audio('arrow.mp3');
 var currentGameSound;
 var isMuted = false;
 let muteButtonClicked = false;
 let pauseButtonClicked = false;
+function createPopupaAD() {
+    const messages = [
+        "THIS WOULD BE AN AD",
+        "USING AN API",
+        "BUT I DON'T WANT TO GET CHARGED",
+        "SO I USE THIS MESSAGE INSTEAD",
+    ];
+    let currentIndex = 0;
+    const popupDiv = document.createElement("div");
+    popupDiv.id = "popup-messages";
+    popupDiv.style.position = "absolute";
+    popupDiv.style.top = "150px";
+    popupDiv.style.right = "20px";
+    popupDiv.style.backgroundColor = "#f1f1f1";
+    popupDiv.style.padding = "20px";
+    popupDiv.style.border = "2px solid #888";
+    popupDiv.style.zIndex = 1000;
+    document.body.appendChild(popupDiv);
 
+    // Position the popupDiv below the playMusicButton
+    const playMusicButton = document.getElementById("playMusicButton");
+    const playMusicButtonRect = playMusicButton.getBoundingClientRect();
+    popupDiv.style.top = playMusicButtonRect.bottom + 10 + "px";
+
+    const updateMessage = () => {
+        popupDiv.innerHTML = messages[currentIndex];
+        currentIndex = (currentIndex + 1) % messages.length;
+        setTimeout(updateMessage, 5000);
+    };
+    updateMessage();
+}
 
 function showEasterEgg() {
     const easterEggImage = document.getElementById("easterEggImage");
@@ -91,6 +128,35 @@ function gameClicked(gameSound) {
     currentGameSound = gameSound;
     playMusic();
 }
+
+//Check correct user
+loginButton.onclick = function() {
+  if(user.value === "SoggieMuffins" && pword.value === "1234"){
+    document.getElementById("titleDiv").innerHTML = "Welcome to the Gamer Den, " + user.value + "!";
+    hideLogin();
+    unhideGames();
+    hideGF();
+  } else {
+    document.getElementById("loginMessage").innerHTML = "Incorrect Username or Password."; 
+  }
+ };
+
+function hideLogin(){
+    document.getElementById("login").style.display = "none";
+    document.getElementById("contents").hidden = true;
+}
+
+function unhideGames(){
+   gamesDiv.hidden = false;
+   gamesSelectDiv.hidden = false;
+}
+
+function hideGF(){
+    document.getElementById("container").style.display = "none";
+    document.getElementById('google-login').hidden = true;
+    document.getElementById('facebook-login').hidden = true;
+}
+
 
 // Store the original background image URL
 const originalBackgroundImage = body.style.backgroundImage;
@@ -162,8 +228,8 @@ class Game {
 
     }
 
-
     Snake() {
+
         var canvas = document.getElementById('Snake');
         var context = canvas.getContext('2d');
         canvas.style.display = 'block';
@@ -208,8 +274,36 @@ class Game {
             return Math.floor(Math.random() * (max - min)) + min;
         }
 
+        // initialize score to zero
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '175px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '175px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
+
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
+
 
             if (!isPaused) {
                 requestAnimationFrame(loop);
@@ -264,10 +358,16 @@ class Game {
                     // snake ate apple
                     if (cell.x === apple.x && cell.y === apple.y) {
                         snake.maxCells++;
-
+                
                         // canvas is 400x400 which is 25x25 grids
                         apple.x = getRandomInt(0, 25) * grid;
                         apple.y = getRandomInt(0, 25) * grid;
+                
+                        // increment score
+                        score += 1;
+                        scoreDiv.textContent = 'Score: ' + score;
+                
+                        // Play the eat sound
 
                         // // Play the eat sound
                         document.getElementById('eatSound').play();
@@ -284,9 +384,12 @@ class Game {
                             snake.maxCells = 4;
                             snake.dx = grid;
                             snake.dy = 0;
-
+                            
                             apple.x = getRandomInt(0, 25) * grid;
                             apple.y = getRandomInt(0, 25) * grid;
+                            score = 0;
+                            scoreDiv.textContent = 'Score: ' + score;
+                            startTime = Date.now();
                         }
                     }
                 });
@@ -315,21 +418,25 @@ class Game {
             if (e.which === 37 && snake.dx === 0) {
                 snake.dx = -grid;
                 snake.dy = 0;
+                snakeMovingSound.play();
             }
             // up arrow key
             else if (e.which === 38 && snake.dy === 0) {
                 snake.dy = -grid;
                 snake.dx = 0;
+                snakeMovingSound.play();
             }
             // right arrow key
             else if (e.which === 39 && snake.dx === 0) {
                 snake.dx = grid;
                 snake.dy = 0;
+                snakeMovingSound.play();
             }
             // down arrow key
             else if (e.which === 40 && snake.dy === 0) {
                 snake.dy = grid;
                 snake.dx = 0;
+                snakeMovingSound.play();
             }
         });
         //make awsd key
@@ -338,21 +445,26 @@ class Game {
             if ((e.which === 37 || e.which === 65) && snake.dx === 0) {
                 snake.dx = -grid;
                 snake.dy = 0;
+                snakeMovingSound.play();
             }
             // up arrow key or W key
             else if ((e.which === 38 || e.which === 87) && snake.dy === 0) {
                 snake.dy = -grid;
                 snake.dx = 0;
+                snakeMovingSound.play();
+                
             }
             // right arrow key or D key
             else if ((e.which === 39 || e.which === 68) && snake.dx === 0) {
                 snake.dx = grid;
                 snake.dy = 0;
+                snakeMovingSound.play();
             }
             // down arrow key or S key
             else if ((e.which === 40 || e.which === 83) && snake.dy === 0) {
                 snake.dy = grid;
                 snake.dx = 0;
+                snakeMovingSound.play();
             }
         });
 
@@ -374,6 +486,29 @@ class Game {
         canvas.style.top = '300%';
         canvas.style.left = '50%';
         canvas.style.transform = 'translate(-50%, -50%)';
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '175px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '175px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
 
         gamesDiv.style.display = 'none';
         // puzzle bubble is played on a hex grid. instead of doing complicated
@@ -662,6 +797,8 @@ class Game {
 
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
             requestAnimationFrame(loop);
             context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -695,6 +832,34 @@ class Game {
                 // make the closest inactive bubble active
                 const closestBubble = getClosestBubble(curBubble);
                 handleCollision(closestBubble);
+            }
+            function getClosestBubble(obj, activeState = false) {
+                const closestBubbles = bubbles
+                    .filter(bubble => bubble.active == activeState && collides(obj, bubble));
+            
+                if (!closestBubbles.length) {
+                    return;
+                }
+            
+                const closestBubble = closestBubbles
+                    // turn the array of bubbles into an array of distances
+                    .map(bubble => {
+                        return {
+                            distance: getDistance(obj, bubble),
+                            bubble
+                        }
+                    })
+                    .sort((a, b) => a.distance - b.distance)[0].bubble;
+            
+                // if the closest bubble is inactive, activate it and add to the score
+                if (!closestBubble.active) {
+                    closestBubble.active = true;
+                    closestBubble.color = obj.color;
+                    score += 10; // add 10 points to the score
+                    document.getElementById('score').textContent = 'Score: ' + score;
+                }
+            
+                return closestBubble;
             }
 
             // check to see if bubble collides with another bubble
@@ -775,9 +940,11 @@ class Game {
         document.addEventListener('keydown', (e) => {
             if (e.code === 'ArrowLeft') {
                 shootDir = -1;
+                arrowSound.play();
             }
             else if (e.code === 'ArrowRight') {
                 shootDir = 1;
+                arrowSound.play();
             }
 
             // if the current bubble is not moving we can launch it
@@ -848,6 +1015,29 @@ class Game {
         canvas.style.top = '300%';
         canvas.style.left = '50%';
         canvas.style.transform = 'translate(-50%, -50%)';
+        var score = 0;
+        var startTime = Date.now();
+
+        // create a div element to display the score
+        var scoreDiv = document.createElement('div');
+        scoreDiv.id = 'score';
+        scoreDiv.textContent = 'Score: ' + score;
+        scoreDiv.style.position = 'absolute';
+        scoreDiv.style.top = '120px';
+        scoreDiv.style.left = '750px';
+        scoreDiv.style.fontFamily = 'Pacifico, cursive';
+        scoreDiv.style.fontSize = "24px";
+        scoreDiv.style.color = "White";
+        document.body.appendChild(scoreDiv);
+        var timerDiv = document.createElement('div');
+        timerDiv.id = 'timer';
+        timerDiv.style.position = 'absolute';
+        timerDiv.style.top = '120px';
+        timerDiv.style.left = '626px';
+        timerDiv.style.fontFamily = 'Pacifico, cursive';
+        timerDiv.style.fontSize = '24px';
+        timerDiv.style.color = 'white';
+        document.body.appendChild(timerDiv);
 
         gamesDiv.style.display = 'none';
 
@@ -877,7 +1067,6 @@ class Game {
             'G': 'green',
             'Y': 'yellow'
         };
-
         // use a 2px gap between each brick
         const brickGap = 2;
         const brickWidth = 25;
@@ -904,7 +1093,6 @@ class Game {
                 });
             }
         }
-
         const paddle = {
             // place the paddle horizontally in the middle of the screen
             x: canvas.width / 2 - brickWidth / 2,
@@ -939,6 +1127,17 @@ class Game {
                 obj1.y + obj1.height > obj2.y;
         
             if (isColliding) {
+                // check if the colliding object is a brick
+                if (obj2.color) {
+                    // remove the brick from the bricks array
+                    bricks.splice(bricks.indexOf(obj2), 1);
+        
+                    // increment the score counter
+                    score++;
+        
+                    // update the score displayed in the scoreDiv element
+                    scoreDiv.textContent = 'Score: ' + score;
+                }
                 document.getElementById('CollideSound').play();
             }
         
@@ -946,6 +1145,8 @@ class Game {
         }
         // game loop
         function loop() {
+            var elapsed = Date.now() - startTime;
+            timerDiv.textContent = 'Time: ' + Math.floor(elapsed / 1000) + 's';
             if (!isPaused) {
                 requestAnimationFrame(loop);
                 context.clearRect(0, 0, canvas.width, canvas.height);
@@ -1062,10 +1263,14 @@ class Game {
             // left arrow key
             if (e.which === 37) {
                 paddle.dx = -3;
+                paddleMovingSound.play();
+
             }
             // right arrow key
             else if (e.which === 39) {
                 paddle.dx = 3;
+                paddleMovingSound.play();
+
             }
 
             // space key
@@ -1086,10 +1291,14 @@ class Game {
                 // A key
                 if (e.which === 65) {
                     paddle.dx = -3;
+                    paddleMovingSound.play();
+
                 }
                 // D key
                 else if (e.which === 68) {
                     paddle.dx = 3;
+                    paddleMovingSound.play();;
+
                 }
 
                 // W key
@@ -1254,5 +1463,5 @@ BreakoutGame.addEventListener("click", function() {
       the ball against the blue paddle.</p>
     `;
   });
-//-------------------------------------------------------------------------------------
 
+createPopupaAD();
